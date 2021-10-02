@@ -6,6 +6,7 @@ from time import sleep
 import time
 import board
 import adafruit_nunchuk
+import motorInterface
 
 nc = adafruit_nunchuk.Nunchuk(board.I2C())
 
@@ -29,11 +30,11 @@ while True:
     x, y = nc.joystick
     print("joystick = {},{}".format(x, y))
     turning = abs(x-130) > 5
-    turndir = ''
+    turndir = 'right'
     turnrat = 0
     if turning:
         turndir = 'right' if x-130 > 0 else 'left'
-        turnrat = abs(x-130)
+        turnrat = abs(x-130)*3/4
     moving = abs(y-129) > 5
     movdir = True
     movspd = 0
@@ -41,14 +42,10 @@ while True:
         movdir = True if y-129 > 0 else False
         movspd = abs(y-129)*75/98
     if nc.buttons.Z:
-        movspd = 75
-    if nc.buttons.C:
-        print("button C")
-    if nc.buttons.Z:
-        print("button Z")
-    GPIO.output(dirA,True)
-    GPIO.output(dirB,True)
-    for duty in range(0,76,1):
-        pwmb.ChangeDutyCycle(duty) #provide duty cycle in the range 0-100
-        sleep(0.05)
+        movspd = 0
+    directions = motorInterface.drive(movspd, movdir, turnrat, turndir)
+    GPIO.output(dirA,directions[1])
+    GPIO.output(dirB,directions[3])
+    pwma.ChangeDutyCycle(directions[0])
+    pwmb.ChangeDutyCycle(directions[2]) #provide duty cycle in the range 0-100
     sleep(0.1)
