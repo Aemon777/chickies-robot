@@ -2,13 +2,12 @@
 #don't set pwm value above 75.
 #*****************************
 import RPi.GPIO as GPIO
-from time import sleep
 import time
 import board
 import adafruit_nunchuk
 import motorInterface
 
-nc = adafruit_nunchuk.Nunchuk(board.I2C())
+nc adafruit_nunchuk.Nunchuk(board.I2C())
 
 pwmA = 33   #left
 dirA = 31
@@ -29,21 +28,31 @@ pwmb.start(0)
 while True:
     x, y = nc.joystick
     print("joystick = {},{}".format(x, y))
-    turning = abs(x-130) > 5
+    turning = abs(x-130) > 10
     turndir = 'right'
     turnrat = 0
     if turning:
         turndir = 'right' if x-130 > 0 else 'left'
         turnrat = abs(x-130)*3/4
-    moving = abs(y-129) > 5
+        print('Turn direction: ')
+        print(turndir)
+        print('  Turn rate: ')
+        print(turnrat)
+    moving = abs(y-129) > 10
     movdir = True
     movspd = 0
     if moving:
         movdir = True if y-129 > 0 else False
         movspd = abs(y-129)*75/98
+        print(' Move speed: ')
+        print(movspd)
+        print(' Move direction: ')
+        print(movdir)
     if nc.buttons.Z:
         movspd = 0
+        turnrat = 0
     directions = motorInterface.drive(movspd, movdir, turnrat, turndir)
+    print(directions)
     GPIO.output(dirA,directions[1])
     GPIO.output(dirB,directions[3])
     pwma.ChangeDutyCycle(directions[0])

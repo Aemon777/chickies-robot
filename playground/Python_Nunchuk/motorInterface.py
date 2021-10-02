@@ -1,9 +1,9 @@
 
 
 def drive(movspd, movdir, turnrat, turndir):
-    if turnrat > 85:
+    if movspd == 0:
         return swivel(movspd, movdir, turnrat, turndir)
-    elif turnrat > 75:
+    elif turnrat/movspd > 2:
         return pivot(movspd, movdir, turnrat, turndir)
     elif turnrat > 0:
         return curve(movspd, movdir, turnrat, turndir)
@@ -44,8 +44,8 @@ def curve(movspd, movdir, turnrat, turndir):
     dirB = movdir
     if turndir == 'right':
         pwmA = movspd
-        pwmB = movspd - turnrat
+        pwmB = movspd - turnrat/2
     else:
-        pwmA = movspd - turnrat
+        pwmA = movspd - turnrat/2
         pwmB = movspd
     return((pwmA, dirA, pwmB, dirB))
