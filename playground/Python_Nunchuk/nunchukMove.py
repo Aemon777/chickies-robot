@@ -15,7 +15,7 @@ pwmB = 32
 dirB = 29
 
 GPIO.setwarnings(False)			#disable warnings
-GPIO.setmode(GPIO.BOARD)		#set pin numbering system
+#GPIO.setmode(GPIO.BOARD)		#set pin numbering system
 GPIO.setup(pwmA,GPIO.OUT)
 GPIO.setup(dirA,GPIO.OUT)
 GPIO.setup(pwmB,GPIO.OUT)
