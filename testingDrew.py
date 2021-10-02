@@ -1,2 +1,0 @@
-print('testing data')
-ladeda
