@@ -1,0 +1,8 @@
+To SSH into the Pi, follow these steps:
+Go to remote.it
+Sign in with
+    Username: jblackburn@cedarville.edu
+    Password: Chickies_2021
+Click on Connect, SSH
+Copy/paste a recommended SSH line
+Password for the Pi: chickies
