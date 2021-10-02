@@ -49,7 +49,7 @@ while True:
     GPIO.output(dirA,True)
     GPIO.output(dirB,True)
     for duty in range(0,76,1):
-        pwma.ChangeDutyCycle() #provide duty cycle in the range 0-100   //Max 75 for this implementation
+        #pwma.ChangeDutyCycle() #provide duty cycle in the range 0-100   //Max 75 for this implementation
         pwmb.ChangeDutyCycle(duty) #provide duty cycle in the range 0-100
         sleep(0.05)
     sleep(0.1)
