@@ -15,22 +15,22 @@ def drive(movspd, movdir, turnrat, turndir, curState):
     print(curState)
     print(newState)
     if curState[1] != newState[1]:
-        if newState[0] <= 10:
+        if curState[0] <= 10:
             newState[0] = 0
         else:
-            newState[0] = newState[0] - 10
-            newState[1] = not newState[1]
+            newState[0] = curState[0] - 10
+            newState[1] = curState[1]
     else:
         if curState[0] - newState[0] > 10:
             newState[0] = curState[0] - 10
         elif newState[0] - curState[0] > 10:
             newState[0] = curState[0] + 10
     if curState[3] != newState[3]:
-        if newState[2] <= 10:
+        if curState[2] <= 10:
             newState[2] = 0
         else:
-            newState[2] = newState[2] - 10
-            newState[3] = not newState[3]
+            newState[2] = curState[2] - 10
+            newState[3] = curState[3]
     else:
         if curState[2] - newState[2] > 10:
             newState[2] = curState[2] - 10
@@ -38,7 +38,6 @@ def drive(movspd, movdir, turnrat, turndir, curState):
             newState[2] = curState[2] + 10
     print("After: ")
     print(curState)
-    print(newState)
     
     return (newState)
 
