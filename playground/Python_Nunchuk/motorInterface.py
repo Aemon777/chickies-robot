@@ -57,9 +57,9 @@ def pivot(movspd, movdir, turnrat, turndir):
         pwmLeft = turnrat
         pwmRight = 0
     else:
-        pwmLeft = turnrat
-        pwmRight = 0
-    return((pwmLeft, dirLeft, pwmRight, dirRight))
+        pwmA = 0
+        pwmB = turnrat
+    return((pwmA, dirA, pwmB, dirB))
 
 
 def curve(movspd, movdir, turnrat, turndir):
