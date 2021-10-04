@@ -9,10 +9,10 @@ import motorInterface
 
 nc =  adafruit_nunchuk.Nunchuk(board.I2C())
 
-pwmA = 33   #left
-dirA = 31
-pwmB = 32
-dirB = 29
+pwmA = 13   #left
+dirA = 6
+pwmB = 12
+dirB = 5
 
 GPIO.setwarnings(False)			#disable warnings
 #GPIO.setmode(GPIO.BOARD)		#set pin numbering system
