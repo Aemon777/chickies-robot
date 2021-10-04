@@ -33,7 +33,7 @@ while True:
     turnrat = 0
     if turning:
         turndir = 'right' if x-130 > 0 else 'left'
-        turnrat = abs(x-130)*3/4
+        turnrat = int(abs(x-130)*3/4)
         print('Turn direction: ')
         print(turndir)
         print('  Turn rate: ')
@@ -43,7 +43,7 @@ while True:
     movspd = 0
     if moving:
         movdir = True if y-129 > 0 else False
-        movspd = abs(y-129)*75/98
+        movspd = int(abs(y-129)*75/98)
         print(' Move speed: ')
         print(movspd)
         print(' Move direction: ')
