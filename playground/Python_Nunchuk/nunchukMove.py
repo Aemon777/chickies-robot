@@ -7,7 +7,7 @@ import board
 import adafruit_nunchuk
 import motorInterface
 
-nc adafruit_nunchuk.Nunchuk(board.I2C())
+nc =  adafruit_nunchuk.Nunchuk(board.I2C())
 
 pwmA = 33   #left
 dirA = 31
@@ -57,4 +57,4 @@ while True:
     GPIO.output(dirB,directions[3])
     pwma.ChangeDutyCycle(directions[0])
     pwmb.ChangeDutyCycle(directions[2]) #provide duty cycle in the range 0-100
-    sleep(0.1)
+    time.sleep(0.1)
