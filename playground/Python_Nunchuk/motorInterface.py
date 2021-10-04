@@ -1,12 +1,13 @@
 
 #State is defined as a 4-List carrying (pwmLeft, dirLeft, pwmRight, dirRight)
 def drive(movspd, movdir, turnrat, turndir, curState):
-    if movspd == 0:
-        newState = swivel(movspd, movdir, turnrat, turndir)
-    elif turnrat/movspd > 2:
-        newState = pivot(movspd, movdir, turnrat, turndir)
-    elif turnrat > 0:
-        newState = curve(movspd, movdir, turnrat, turndir)
+    if turnrat != 0:
+        if movspd == 0:
+            newState = swivel(movspd, movdir, turnrat, turndir)
+        elif turnrat/movspd > 2:
+            newState = pivot(movspd, movdir, turnrat, turndir)
+        else:
+           newState = curve(movspd, movdir, turnrat, turndir)
     else:
         newState = ([movspd, movdir, movspd, movdir])
     #Limit 10 PWM change per return

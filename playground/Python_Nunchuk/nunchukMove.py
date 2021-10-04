@@ -23,7 +23,7 @@ pwmLeft = GPIO.PWM(pwmLeftPin,1000)		#create PWM instance with frequency
 pwmRight = GPIO.PWM(pwmRightPin,1000)		#create PWM instance with frequency
 pwmLeft.start(0)				#start PWM of required Duty Cycle 
 pwmRight.start(0)
-directions = ((0, True, 0, True))
+directions = ((0, False, 0, False))
 # Front-back key: False is forward
 while True:
     x, y = nc.joystick
