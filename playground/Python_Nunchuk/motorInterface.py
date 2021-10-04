@@ -34,8 +34,8 @@ def pivot(movspd, movdir, turnrat, turndir):
         pwmA = turnrat
         pwmB = 0
     else:
-        pwmA = turnrat
-        pwmB = 0
+        pwmA = 0
+        pwmB = turnrat
     return((pwmA, dirA, pwmB, dirB))
 
 

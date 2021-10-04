@@ -25,6 +25,7 @@ pwmb = GPIO.PWM(pwmB,1000)		#create PWM instance with frequency
 pwma.start(0)				#start PWM of required Duty Cycle 
 pwmb.start(0)
 
+# Front-back key: False is forward
 while True:
     x, y = nc.joystick
     print("joystick = {},{}".format(x, y))
@@ -39,18 +40,18 @@ while True:
         print('  Turn rate: ')
         print(turnrat)
     moving = abs(y-129) > 10
-    movdir = True
+    movdir = False
     movspd = 0
     if moving:
-        movdir = True if y-129 > 0 else False
+        movdir = False if y-129 > 0 else True
         movspd = int(abs(y-129)*75/98)
         print(' Move speed: ')
         print(movspd)
         print(' Move direction: ')
         print(movdir)
-    if nc.buttons.Z:
-        movspd = 0
-        turnrat = 0
+    #if nc.buttons.Z:
+     #   movspd = 0
+      #  turnrat = 0
     directions = motorInterface.drive(movspd, movdir, turnrat, turndir)
     print(directions)
     GPIO.output(dirA,directions[1])
