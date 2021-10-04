@@ -11,12 +11,9 @@ def drive(movspd, movdir, turnrat, turndir, curState):
     else:
         newState = ([movspd, movdir, movspd, movdir])
     #Limit 10 PWM change per return
-    print("Before: ")
-    print(curState)
-    print(newState)
     if curState[1] != newState[1]:
         if curState[0] <= 10:
-            newState[0] = 0
+            newState[0] = abs(curState[0]-10)
         else:
             newState[0] = curState[0] - 10
             newState[1] = curState[1]
@@ -27,7 +24,7 @@ def drive(movspd, movdir, turnrat, turndir, curState):
             newState[0] = curState[0] + 10
     if curState[3] != newState[3]:
         if curState[2] <= 10:
-            newState[2] = 0
+            newState[2] = abs(curState[2]-10)
         else:
             newState[2] = curState[2] - 10
             newState[3] = curState[3]
@@ -36,8 +33,6 @@ def drive(movspd, movdir, turnrat, turndir, curState):
             newState[2] = curState[2] - 10
         elif newState[2] - curState[2] > 10:
             newState[2] = curState[2] + 10
-    print("After: ")
-    print(curState)
     
     return (newState)
 

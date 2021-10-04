@@ -7,7 +7,7 @@ import board
 import adafruit_nunchuk
 import motorInterface
 
-nc =  adafruit_nunchuk.Nunchuk(board.I2C())
+nc = adafruit_nunchuk.Nunchuk(board.I2C())
 
 pwmLeftPin = 13   #left
 dirLeftPin = 6
