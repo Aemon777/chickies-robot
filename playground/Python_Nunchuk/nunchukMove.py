@@ -9,22 +9,22 @@ import motorInterface
 
 nc =  adafruit_nunchuk.Nunchuk(board.I2C())
 
-pwmA = 13   #left
-dirA = 6
-pwmB = 12
-dirB = 5
+pwmLeftPin = 13   #left
+dirLeftPin = 6
+pwmRightPin = 12
+dirRightPin = 5
 
 GPIO.setwarnings(False)			#disable warnings
 #GPIO.setmode(GPIO.BOARD)		#set pin numbering system
-GPIO.setup(pwmA,GPIO.OUT)
-GPIO.setup(dirA,GPIO.OUT)
-GPIO.setup(pwmB,GPIO.OUT)
-GPIO.setup(dirB,GPIO.OUT)
-pwma = GPIO.PWM(pwmA,1000)		#create PWM instance with frequency
-pwmb = GPIO.PWM(pwmB,1000)		#create PWM instance with frequency
-pwma.start(0)				#start PWM of required Duty Cycle 
-pwmb.start(0)
-
+GPIO.setup(pwmLeftPin,GPIO.OUT)
+GPIO.setup(dirLeftPin,GPIO.OUT)
+GPIO.setup(pwmRightPin,GPIO.OUT)
+GPIO.setup(dirRightPin,GPIO.OUT)
+pwmLeft = GPIO.PWM(pwmLeftPin,1000)		#create PWM instance with frequency
+pwmRight = GPIO.PWM(pwmRightPin,1000)		#create PWM instance with frequency
+pwmLeft.start(0)				#start PWM of required Duty Cycle 
+pwmRight.start(0)
+directions = ((0, True, 0, True))
 while True:
     x, y = nc.joystick
     print("joystick = {},{}".format(x, y))
@@ -51,10 +51,11 @@ while True:
     if nc.buttons.Z:
         movspd = 0
         turnrat = 0
-    directions = motorInterface.drive(movspd, movdir, turnrat, turndir)
+    #drive will return a 4-Tuple containing (pwmLeft, dirLeft, pwmRight, dirRight)
+    directions = motorInterface.drive(movspd, movdir, turnrat, turndir, directions)
     print(directions)
-    GPIO.output(dirA,directions[1])
-    GPIO.output(dirB,directions[3])
-    pwma.ChangeDutyCycle(directions[0])
-    pwmb.ChangeDutyCycle(directions[2]) #provide duty cycle in the range 0-100
-    time.sleep(0.1)
+    GPIO.output(dirLeftPin,directions[1])
+    GPIO.output(dirRightPin,directions[3])
+    pwmLeft.ChangeDutyCycle(directions[0])
+    pwmRight.ChangeDutyCycle(directions[2]) #provide duty cycle in the range 0-100
+    time.sleep(0.05)

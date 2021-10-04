@@ -1,51 +1,74 @@
 
-
-def drive(movspd, movdir, turnrat, turndir):
+#State is defined as a 4-Tuple carrying (pwmLeft, dirLeft, pwmRight, dirRight)
+def drive(movspd, movdir, turnrat, turndir, curState):
     if movspd == 0:
-        return swivel(movspd, movdir, turnrat, turndir)
+        newState = swivel(movspd, movdir, turnrat, turndir)
     elif turnrat/movspd > 2:
-        return pivot(movspd, movdir, turnrat, turndir)
+        newState = pivot(movspd, movdir, turnrat, turndir)
     elif turnrat > 0:
-        return curve(movspd, movdir, turnrat, turndir)
+        newState = curve(movspd, movdir, turnrat, turndir)
     else:
-        dirA = movdir
-        dirB = movdir
-        pwmA = movspd
-        pwmB = movspd
-    return ((pwmA, dirA, pwmB, dirB))
+        newState = ((movspd, movdir, movspd, movdir))
+    #Limit 10 PWM change per return
+    
+    if curState[1] != newState[1]:
+        if newState[0] <= 10:
+            newState[0] = 0
+        else:
+            newState[0] = newState[0] - 10
+            newState[0] = not newState[0]
+    else:
+        if curState[0] - newState[0] > 10:
+            newState[0] = curState[0] - 10
+        elif newState[0] - curState[0] > 10:
+            newState[0] = curState[0] + 10
+    if curState[3] != newState[3]:
+        if newState[2] <= 10:
+            newState[2] = 0
+        else:
+            newState[2] = newState[2] - 10
+            newState[2] = not newState[2]
+    else:
+        if curState[2] - newState[2] > 10:
+            newState[2] = curState[2] - 10
+        elif newState[2] - curState[2] > 10:
+            newState[2] = curState[2] + 10
+
+    
+    return (newState)
 
 def swivel(movspd, movdir, turnrat, turndir):
-    pwmA = turnrat
-    pwmB = turnrat
+    pwmLeft = turnrat
+    pwmRight = turnrat
     if turndir == 'right':
-        dirA = movdir
-        dirB = not movdir
+        dirLeft = movdir
+        dirRight = not movdir
     else:
-        dirA = not movdir
-        dirB = movdir
-    return ((pwmA, dirA, pwmB, dirB))
+        dirLeft = not movdir
+        dirRight = movdir
+    return ((pwmLeft, dirLeft, pwmRight, dirRight))
 
         
 
 def pivot(movspd, movdir, turnrat, turndir):
-    dirA = movdir
-    dirB = movdir
+    dirLeft = movdir
+    dirRight = movdir
     if turndir == 'right':
-        pwmA = turnrat
-        pwmB = 0
+        pwmLeft = turnrat
+        pwmRight = 0
     else:
-        pwmA = turnrat
-        pwmB = 0
-    return((pwmA, dirA, pwmB, dirB))
+        pwmLeft = turnrat
+        pwmRight = 0
+    return((pwmLeft, dirLeft, pwmRight, dirRight))
 
 
 def curve(movspd, movdir, turnrat, turndir):
-    dirA = movdir
-    dirB = movdir
+    dirLeft = movdir
+    dirRight = movdir
     if turndir == 'right':
-        pwmA = movspd
-        pwmB = movspd - turnrat/2
+        pwmLeft = movspd
+        pwmRight = movspd - turnrat/2
     else:
-        pwmA = movspd - turnrat/2
-        pwmB = movspd
-    return((pwmA, dirA, pwmB, dirB))
+        pwmLeft = movspd - turnrat/2
+        pwmRight = movspd
+    return((pwmLeft, dirLeft, pwmRight, dirRight))
