@@ -1,5 +1,5 @@
 
-#State is defined as a 4-Tuple carrying (pwmLeft, dirLeft, pwmRight, dirRight)
+#State is defined as a 4-List carrying (pwmLeft, dirLeft, pwmRight, dirRight)
 def drive(movspd, movdir, turnrat, turndir, curState):
     if movspd == 0:
         newState = swivel(movspd, movdir, turnrat, turndir)
@@ -8,7 +8,7 @@ def drive(movspd, movdir, turnrat, turndir, curState):
     elif turnrat > 0:
         newState = curve(movspd, movdir, turnrat, turndir)
     else:
-        newState = ((movspd, movdir, movspd, movdir))
+        newState = ([movspd, movdir, movspd, movdir])
     #Limit 10 PWM change per return
     
     if curState[1] != newState[1]:
@@ -46,7 +46,7 @@ def swivel(movspd, movdir, turnrat, turndir):
     else:
         dirLeft = not movdir
         dirRight = movdir
-    return ((pwmLeft, dirLeft, pwmRight, dirRight))
+    return ([pwmLeft, dirLeft, pwmRight, dirRight])
 
         
 
@@ -59,7 +59,7 @@ def pivot(movspd, movdir, turnrat, turndir):
     else:
         pwmLeft = 0
         pwmRight = turnrat
-    return((pwmLeft, dirLeft, pwmRight, dirRight))
+    return([pwmLeft, dirLeft, pwmRight, dirRight])
 
 
 def curve(movspd, movdir, turnrat, turndir):
@@ -71,4 +71,4 @@ def curve(movspd, movdir, turnrat, turndir):
     else:
         pwmLeft = movspd - turnrat/2
         pwmRight = movspd
-    return((pwmLeft, dirLeft, pwmRight, dirRight))
+    return([pwmLeft, dirLeft, pwmRight, dirRight])
