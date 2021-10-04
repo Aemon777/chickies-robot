@@ -66,8 +66,8 @@ def curve(movspd, movdir, turnrat, turndir):
     dirRight = movdir
     if turndir == 'right':
         pwmLeft = movspd
-        pwmRight = movspd - turnrat/2
+        pwmRight = int(movspd - turnrat/2)
     else:
-        pwmLeft = movspd - turnrat/2
+        pwmLeft = int(movspd - turnrat/2)
         pwmRight = movspd
     return([pwmLeft, dirLeft, pwmRight, dirRight])
