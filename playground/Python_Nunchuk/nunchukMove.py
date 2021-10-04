@@ -15,7 +15,6 @@ pwmRightPin = 12
 dirRightPin = 5
 
 GPIO.setwarnings(False)			#disable warnings
-#GPIO.setmode(GPIO.BOARD)		#set pin numbering system
 GPIO.setup(pwmLeftPin,GPIO.OUT)
 GPIO.setup(dirLeftPin,GPIO.OUT)
 GPIO.setup(pwmRightPin,GPIO.OUT)
@@ -35,28 +34,20 @@ while True:
     if turning:
         turndir = 'right' if x-130 > 0 else 'left'
         turnrat = int(abs(x-130)*3/4)
-        print('Turn direction: ')
-        print(turndir)
-        print('  Turn rate: ')
-        print(turnrat)
     moving = abs(y-129) > 10
     movdir = False
     movspd = 0
     if moving:
         movdir = False if y-129 > 0 else True
         movspd = int(abs(y-129)*75/98)
-        print(' Move speed: ')
-        print(movspd)
-        print(' Move direction: ')
-        print(movdir)
     #if nc.buttons.Z:
      #   movspd = 0
       #  turnrat = 0
-    #drive will return a 4-Tuple containing (pwmLeft, dirLeft, pwmRight, dirRight)
+    #drive will return a 4-List containing (pwmLeft, dirLeft, pwmRight, dirRight)
     directions = motorInterface.drive(movspd, movdir, turnrat, turndir, directions)
     print(directions)
     GPIO.output(dirLeftPin,directions[1])
     GPIO.output(dirRightPin,directions[3])
     pwmLeft.ChangeDutyCycle(directions[0])
     pwmRight.ChangeDutyCycle(directions[2]) #provide duty cycle in the range 0-100
-    time.sleep(0.05)
+    time.sleep(1)
