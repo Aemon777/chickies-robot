@@ -16,7 +16,7 @@ def drive(movspd, movdir, turnrat, turndir, curState):
             newState[0] = 0
         else:
             newState[0] = newState[0] - 10
-            newState[0] = not newState[0]
+            newState[1] = not newState[1]
     else:
         if curState[0] - newState[0] > 10:
             newState[0] = curState[0] - 10
@@ -27,7 +27,7 @@ def drive(movspd, movdir, turnrat, turndir, curState):
             newState[2] = 0
         else:
             newState[2] = newState[2] - 10
-            newState[2] = not newState[2]
+            newState[3] = not newState[3]
     else:
         if curState[2] - newState[2] > 10:
             newState[2] = curState[2] - 10
