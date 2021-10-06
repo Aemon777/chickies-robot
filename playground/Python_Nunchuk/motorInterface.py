@@ -33,7 +33,7 @@ def drive(movspd, movdir, turnrat, turndir, curState):
             newState[2] = curState[2] - 10
         elif newState[2] - curState[2] > 10:
             newState[2] = curState[2] + 10
-    
+    newState[0] = int(newState[0]*.9)
     return (newState)
 
 def swivel(movspd, movdir, turnrat, turndir):
