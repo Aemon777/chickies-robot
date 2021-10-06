@@ -50,4 +50,4 @@ while True:
     GPIO.output(dirRightPin,directions[3])
     pwmLeft.ChangeDutyCycle(directions[0])
     pwmRight.ChangeDutyCycle(directions[2]) #provide duty cycle in the range 0-100
-    time.sleep(1)
+    time.sleep(0.05)
