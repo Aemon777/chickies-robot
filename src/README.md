@@ -1,1 +1,1 @@
-This file is for our production source code. This README is a placeholder.
+This file is for our main source code.
