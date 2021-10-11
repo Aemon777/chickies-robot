@@ -10,29 +10,29 @@ def drive(movspd, movdir, turnrat, turndir, curState):
            newState = curve(movspd, movdir, turnrat, turndir)
     else:
         newState = ([movspd, movdir, movspd, movdir])
-    #Limit 10 PWM change per return
+    #Limit 5 PWM change per return
     if curState[1] != newState[1]:
-        if curState[0] <= 10:
-            newState[0] = abs(curState[0]-10)
+        if curState[0] <= 5:
+            newState[0] = abs(curState[0]-5)
         else:
-            newState[0] = curState[0] - 10
+            newState[0] = curState[0] - 5
             newState[1] = curState[1]
     else:
-        if curState[0] - newState[0] > 10:
-            newState[0] = curState[0] - 10
-        elif newState[0] - curState[0] > 10:
-            newState[0] = curState[0] + 10
+        if curState[0] - newState[0] > 5:
+            newState[0] = curState[0] - 5
+        elif newState[0] - curState[0] > 5:
+            newState[0] = curState[0] + 5
     if curState[3] != newState[3]:
-        if curState[2] <= 10:
-            newState[2] = abs(curState[2]-10)
+        if curState[2] <= 5:
+            newState[2] = abs(curState[2]-5)
         else:
-            newState[2] = curState[2] - 10
+            newState[2] = curState[2] - 5
             newState[3] = curState[3]
     else:
-        if curState[2] - newState[2] > 10:
-            newState[2] = curState[2] - 10
-        elif newState[2] - curState[2] > 10:
-            newState[2] = curState[2] + 10
+        if curState[2] - newState[2] > 5:
+            newState[2] = curState[2] - 5
+        elif newState[2] - curState[2] > 5:
+            newState[2] = curState[2] + 5
     newState[0] = int(newState[0]*.9)
     return (newState)
 
