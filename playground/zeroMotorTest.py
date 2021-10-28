@@ -11,38 +11,46 @@ leftDir.on()
 rightDir.on()
 for duty in range(51):
     leftPwm.value = duty
-    sleep(0.05)
+    sleep(0.01)
+print("loop 1")
 sleep(0.5)
 for duty in range(51,-1,-1):
     leftPwm.value = duty
-    sleep(0.05)
+    sleep(0.01)
+print("loop 2")
 sleep(0.5)
     
-for duty in range(0,76,1):
+for duty in range(0,51,1):
     rightPwm.value = duty
-    sleep(0.05)
+    sleep(0.01)
+print("loop 3")
 sleep(0.5)
-for duty in range(75,-1,-1):
+for duty in range(51,-1,-1):
     rightPwm.value = duty
-    sleep(0.05)
+    sleep(0.01)
+print("loop 4")
 sleep(0.5)
 
 leftDir.off()
 rightDir.off()
 for duty in range(51):
     leftPwm.value = duty
-    sleep(0.05)
+    sleep(0.01)
+print("loop 5")
 sleep(0.5)
 for duty in range(51,-1,-1):
     leftPwm.value = duty
-    sleep(0.05)
+    sleep(0.01)
+print("loop 6")
 sleep(0.5)
 
-for duty in range(0,76,1):
+for duty in range(0,51,1):
     rightPwm.value = duty
-    sleep(0.05)
+    sleep(0.01)
+print("loop 7")
 sleep(0.5)
-for duty in range(75,-1,-1):
+for duty in range(51,-1,-1):
     rightPwm.value = duty
-    sleep(0.05)
+    sleep(0.01)
+print("loop 8")
 sleep(0.5)
