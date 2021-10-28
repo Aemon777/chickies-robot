@@ -10,30 +10,30 @@ def drive(movspd, movdir, turnrat, turndir, curState):
            newState = curve(movspd, movdir, turnrat, turndir)
     else:
         newState = ([movspd, movdir, movspd, movdir])
-    #Limit 10 PWM change per return
+    #Limit (curState[0]/15 + 1) PWM change per return
     if curState[1] != newState[1]:
-        if curState[0] <= 10:
-            newState[0] = abs(curState[0]-10)
+        if curState[0] <= (curState[0]/15 + 1):
+            newState[0] = abs(curState[0]-(curState[0]/15 + 1))
         else:
-            newState[0] = curState[0] - 10
+            newState[0] = curState[0] - (curState[0]/15 + 1)
             newState[1] = curState[1]
     else:
-        if curState[0] - newState[0] > 10:
-            newState[0] = curState[0] - 10
-        elif newState[0] - curState[0] > 10:
-            newState[0] = curState[0] + 10
+        if curState[0] - newState[0] > (curState[0]/15 + 1):
+            newState[0] = curState[0] - (curState[0]/15 + 1)
+        elif newState[0] - curState[0] > (curState[0]/15 + 1):
+            newState[0] = curState[0] + (curState[0]/15 + 1)
     if curState[3] != newState[3]:
-        if curState[2] <= 10:
-            newState[2] = abs(curState[2]-10)
+        if curState[2] <= (curState[2]/15 + 1):
+            newState[2] = abs(curState[2]-(curState[2]/15 + 1))
         else:
-            newState[2] = curState[2] - 10
+            newState[2] = curState[2] - (curState[2]/15 + 1)
             newState[3] = curState[3]
     else:
-        if curState[2] - newState[2] > 10:
-            newState[2] = curState[2] - 10
-        elif newState[2] - curState[2] > 10:
-            newState[2] = curState[2] + 10
-    newState[0] = int(newState[0]*.9)
+        if curState[2] - newState[2] > (curState[2]/15 + 1):
+            newState[2] = curState[2] - (curState[2]/15 + 1)
+        elif newState[2] - curState[2] > (curState[2]/15 + 1):
+            newState[2] = curState[2] + (curState[2]/15 + 1)
+    newState[0] = int(newState[0])
     return (newState)
 
 def swivel(movspd, movdir, turnrat, turndir):
