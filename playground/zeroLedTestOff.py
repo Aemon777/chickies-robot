@@ -3,6 +3,6 @@ from time import sleep
 print("past imports")
 led = gpio.LED(13)
 
-led.on()
-print("led on")
+led.off()
+print("led off")
 sleep(10)
