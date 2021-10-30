@@ -10,50 +10,50 @@ print("declared vars")
 leftDir.on()
 rightDir.on()
 print("turned on wheels")
-for duty in range(51):
+for duty in range(0, 51, 3):
     print(duty)
-    leftPwm.value = duty
-    sleep(0.01)
+    leftPwm.value = duty/100
+    sleep(0.05)
 print("loop 1")
 sleep(0.5)
-for duty in range(51,-1,-1):
-    leftPwm.value = duty
-    sleep(0.01)
+for duty in range(51,-1,-3):
+    leftPwm.value = duty/100
+    sleep(0.05)
 print("loop 2")
 sleep(0.5)
     
-for duty in range(0,51,1):
-    rightPwm.value = duty
-    sleep(0.01)
+for duty in range(0,51,3):
+    rightPwm.value = duty/100
+    sleep(0.05)
 print("loop 3")
 sleep(0.5)
-for duty in range(51,-1,-1):
-    rightPwm.value = duty
-    sleep(0.01)
+for duty in range(51,-1,-3):
+    rightPwm.value = duty/100
+    sleep(0.05)
 print("loop 4")
 sleep(0.5)
 print("switching directions")
 leftDir.off()
 rightDir.off()
-for duty in range(51):
-    leftPwm.value = duty
-    sleep(0.01)
+for duty in range(0, 51, 3):
+    leftPwm.value = duty/100
+    sleep(0.05)
 print("loop 5")
 sleep(0.5)
-for duty in range(51,-1,-1):
-    leftPwm.value = duty
-    sleep(0.01)
+for duty in range(51,-1,-3):
+    leftPwm.value = duty/100
+    sleep(0.05)
 print("loop 6")
 sleep(0.5)
 
-for duty in range(0,51,1):
-    rightPwm.value = duty
-    sleep(0.01)
+for duty in range(0,51,3):
+    rightPwm.value = duty/100
+    sleep(0.05)
 print("loop 7")
 sleep(0.5)
-for duty in range(51,-1,-1):
-    rightPwm.value = duty
-    sleep(0.01)
+for duty in range(51,-1,-3):
+    rightPwm.value = duty/100
+    sleep(0.05)
 print("loop 8")
 sleep(0.5)
 sleep(0.5)
