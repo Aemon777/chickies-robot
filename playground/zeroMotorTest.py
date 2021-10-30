@@ -11,6 +11,7 @@ leftDir.on()
 rightDir.on()
 print("turned on wheels")
 for duty in range(0, 51, 3):
+    print(duty)
     leftPwm.value = duty
     sleep(0.05)
 print("loop 1")
