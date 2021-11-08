@@ -1,8 +1,10 @@
-To SSH into the Pi, follow these steps:
-Go to remote.it
-Sign in with
-    Username: jblackburn@cedarville.edu
-    Password: Chickies_2021
-Click on Connect, SSH
-Copy/paste a recommended SSH line
+If you don't know your IP:
+    Plug your pi into the screen
+    Login with password: chickies
+    Open a terminal and run ifconfig
+    Look for wlan0, grab the IP following inet
+If you're in the lab:
+    Check the board for IP addresses
+Open a terminal and run
+    ssh ubuntu@<ip-address>
 Password for the Pi: chickies

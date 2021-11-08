@@ -1,0 +1,11 @@
+Go to Putty
+Choose serial Connection type
+/dev/ttyACM1 as Serial Line
+Speed: 115200
+
+How to check if if ttyACM1 has changed
+    Open a terminal
+    ls /dev/tty*
+    Then unplug the Arduino
+    ls /dev/tty*
+    The one that disappears is the Arduino, use that as your Serial Line in Putty
