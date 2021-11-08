@@ -1,3 +1,8 @@
+Links
+    Generalized ROS tutorial: http://wiki.ros.org/ROS/Tutorials
+    rospy tutorials: http://wiki.ros.org/rospy_tutorials?distro=noetic
+    tf tutorials: http://wiki.ros.org/tf/Tutorials 
+
 Random notes
     Master manages the various topics that exist
     Nodes run code, publish and subscribe
@@ -11,8 +16,12 @@ Node types that have come up
     rqt_graph rqt_graph
         Makes a graph that tracks current nodes and topic connections
     rqt_plot rqt_plot
+        Makes a plot tracking data published on a given topic
         
 Commands I decided to write down
+    roscore
+        roscore
+            Starts the roscore, needed before anything really happens
     rosnode
         rosnode list 
             Shows all the current rosnodes running
