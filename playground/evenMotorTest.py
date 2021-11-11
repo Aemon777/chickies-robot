@@ -10,12 +10,10 @@ leftDir.off()
 rightDir.off()
 for duty in range(0,100,1):
     leftPwm.value = duty/100/1.15 #provide duty cycle in the range 0-100
-    sleep(0.01)
     rightPwm.value = duty/100
     sleep(0.01)
 sleep(10)
 for duty in range(100,-1,-1):
     leftPwm.value = duty/100/1.15
-    sleep(0.01)
     rightPwm.value = duty/100
     sleep(0.01)
