@@ -12,7 +12,7 @@ for duty in range(0,100,1):
     leftPwm.value = duty/100/1.15 #provide duty cycle in the range 0-100
     rightPwm.value = duty/100
     sleep(0.01)
-sleep(10)
+sleep(2)
 for duty in range(100,-1,-1):
     leftPwm.value = duty/100/1.15
     rightPwm.value = duty/100
