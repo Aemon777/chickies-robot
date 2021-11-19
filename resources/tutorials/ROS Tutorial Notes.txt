@@ -8,6 +8,13 @@ Random notes
     Nodes run code, publish and subscribe
     Topics are basically names of buses that can be created by any node that publishes or subscribes to them -- tracked by Master in roscore
 
+catkin process
+    catkin_create_pkg <name> [dependencies]
+        Command for creating a catkin package, should be performed in the src file of your catkin workspace
+    catkin_make
+        Should be run from your workspace folder after doing basically anything
+    
+
 Node types that have come up
     turtlesim turtlesim_node
         This makes a turtle that can move around, random design, kinda cute ngl
@@ -49,4 +56,22 @@ Commands I decided to write down
     rosmsg
         rosmsg show <message_type>
             Shows the format of the specified message type
-    
+    rosservice
+        rosservice list
+            Lists services (duh)
+        rosservice type <service> <options>
+            Shows the parameter type of the given service 
+            Notable suffix: | rossrv show   
+                Shows format for the type
+    rosparam - background parameters stored by ROS
+        rosparam list
+            Take a guess
+        rosparam set <param-name>
+        rosparam get <param-name>
+            Mutator and accessor for a given param
+        rosparam get /
+            Displays all current parameters and values
+        rosparam dump <file-name.yaml> [namespace]
+            Sends all current parameters to the given .yaml file, in the optional namespace
+        rosparam load <file-name.yaml> [namespace]
+            Loads parameters form yaml file, to the optional namespace
