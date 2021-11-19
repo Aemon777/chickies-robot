@@ -6,8 +6,8 @@ leftDir = gpio.LED(6)
 rightPwm = gpio.PWMLED(12)
 rightDir = gpio.LED(5)
 
-leftDir.on()
-rightDir.on()
+leftDir.off()
+rightDir.off()
 for duty in range(0,100,1):
     leftPwm.value = duty/100 #/1.15 #provide duty cycle in the range 0-100
     rightPwm.value = duty/100
