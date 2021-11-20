@@ -28,7 +28,8 @@ while n:
         secondaryThrottle = int(data[1])
         secondarySteering = int(data[3])
         switchA = (int(data[4]) > 50)
-        switchB = round(int(data[5]) / 50)
+        maxPwm = 100 - int(data[5])
+
         if switchA:
             throttle = -throttle
         
@@ -37,6 +38,7 @@ while n:
         rightModifier = -leftModifier
         left = speedModifier + leftModifier
         right = speedModifier + rightModifier
+        
         if left > 100:
             left = 100
         if left < -100:
@@ -63,10 +65,19 @@ while n:
         elif rightVal > 0 and not rightDir.is_active:
             rightDir.on()
 
-        if leftPwm.value != abs(leftVal/100.00):
-            leftPwm.value = abs(leftVal/100.00)
-        if rightPwm.value != abs(rightVal/100.00):
-            rightPwm.value = abs(rightVal/100.00)
+        if maxPwm == 0:
+            leftPwm.value = 0
+            rightPwm.value = 0
+        elif maxPwm == 50:
+            if leftPwm.value != abs(leftVal/200.00):
+                leftPwm.value = abs(leftVal/200.00)
+            if rightPwm.value != abs(rightVal/200.00):
+                rightPwm.value = abs(rightVal/200.00)
+        else:
+            if leftPwm.value != abs(leftVal/100.00):
+                leftPwm.value = abs(leftVal/100.00)
+            if rightPwm.value != abs(rightVal/100.00):
+                rightPwm.value = abs(rightVal/100.00)
         
         print(leftVal,rightVal)
             
