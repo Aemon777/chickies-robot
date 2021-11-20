@@ -1,0 +1,77 @@
+Links
+    Generalized ROS tutorial: http://wiki.ros.org/ROS/Tutorials
+    rospy tutorials: http://wiki.ros.org/rospy_tutorials?distro=noetic
+    tf tutorials: http://wiki.ros.org/tf/Tutorials 
+
+Random notes
+    Master manages the various topics that exist
+    Nodes run code, publish and subscribe
+    Topics are basically names of buses that can be created by any node that publishes or subscribes to them -- tracked by Master in roscore
+
+catkin process
+    catkin_create_pkg <name> [dependencies]
+        Command for creating a catkin package, should be performed in the src file of your catkin workspace
+    catkin_make
+        Should be run from your workspace folder after doing basically anything
+    
+
+Node types that have come up
+    turtlesim turtlesim_node
+        This makes a turtle that can move around, random design, kinda cute ngl
+    turtle_turtlesim teleop_key
+        Finds turtle and commands it to do stuff (publishing to the /)
+    rqt_graph rqt_graph
+        Makes a graph that tracks current nodes and topic connections
+    rqt_plot rqt_plot
+        Makes a plot tracking data published on a given topic
+        
+Commands I decided to write down
+    roscore
+        roscore
+            Starts the roscore, needed before anything really happens
+    rosnode
+        rosnode list 
+            Shows all the current rosnodes running
+        rosnode info <node_name>
+            Shows specific info about selected node
+        rosnode ping <node_name>
+    rosrun
+        rosrun <package_name> <node_name> {can add modifiers like __name:=turtle1}
+            Creates a node of the node_name type from package_name
+    rostopic
+        rostopic echo <topic>
+            Echoes all commands posted on a given topic
+        rostopic list
+            Lists topics
+        rostopic type <topic>
+            Yields the type of messages meant to be sent over the specified topic
+        rostopic pub <options> <topic> <msg_type> <args>
+            Publishes a message of the given type to the specified topic with the given args
+                Common options: --once/-1 to only send the message for like 3 seconds
+                    -r # to have the command repeat at a frequency given by # Hertz
+        rostopic hz <topic>
+            Shows rate of publish on that topic
+        rostopic type <topic> | rosmsg show
+            Prints the format of messages to be published on the given topic
+    rosmsg
+        rosmsg show <message_type>
+            Shows the format of the specified message type
+    rosservice
+        rosservice list
+            Lists services (duh)
+        rosservice type <service> <options>
+            Shows the parameter type of the given service 
+            Notable suffix: | rossrv show   
+                Shows format for the type
+    rosparam - background parameters stored by ROS
+        rosparam list
+            Take a guess
+        rosparam set <param-name>
+        rosparam get <param-name>
+            Mutator and accessor for a given param
+        rosparam get /
+            Displays all current parameters and values
+        rosparam dump <file-name.yaml> [namespace]
+            Sends all current parameters to the given .yaml file, in the optional namespace
+        rosparam load <file-name.yaml> [namespace]
+            Loads parameters form yaml file, to the optional namespace
