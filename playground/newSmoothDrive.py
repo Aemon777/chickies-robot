@@ -46,7 +46,7 @@ while n:
         if left < -100:
             left = -100
         
-        #print(left, right)
+        print(left, right)
         leftVal = round(0.7*leftVal + 0.3*left)
         rightVal = round(0.7*rightVal + 0.3*right)
         
