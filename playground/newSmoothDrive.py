@@ -47,44 +47,6 @@ while n:
             left = -100
         
         #print(left, right)
-        
-        if(left < 0):
-            leftDir.off()
-            left = -left
-        else:
-            leftDir.on()
-            
-        if(right < 0):
-            rightDir.off()
-            right = -right
-        else:
-            rightDir.on()
-
-        if left < 0:
-            if leftDir.is_active and leftVal < 30 and leftVal > 0:
-                leftDir.off()
-                leftVal = -left*0.3
-            else:
-                left = -left
-        else:
-            if not leftDir.is_active and leftVal < 30 and leftVal > 0:
-                leftDir.on()
-                leftVal = -left*0.3
-            elif not leftDir.is_active:
-                left = -left
-        if right < 0:
-            if rightDir.is_active and rightVal < 30 and rightVal > 0:
-                rightDir.off()
-                rightVal = -right*0.3
-            else:
-                right = -right
-        else:
-            if not rightDir.is_active and rightVal < 30 and rightVal > 0:
-                rightDir.on()
-                rightVal = -right*0.3
-            elif not rightDir.is_active:
-                right = -right
-
         leftVal = round(0.7*leftVal + 0.3*left)
         rightVal = round(0.7*rightVal + 0.3*right)
         
@@ -92,8 +54,19 @@ while n:
             leftVal = 0
         if(rightVal <= 2):
             rightVal = 0
-        leftPwm.value = leftVal/100.00
-        rightPwm.value = rightVal/100.00
+
+        if leftVal < 0 and leftDir.is_active:
+            leftDir.off()
+        elif leftVal > 0 and not leftDir.is_active:
+            leftDir.on()
+        if rightVal < 0 and rightDir.is_active:
+            rightDir.off()
+        elif rightVal > 0 and not rightDir.is_active:
+            rightDir.on()
+        if leftPwm.value != abs(leftVal/100.00):
+            leftPwm.value = abs(leftVal/100.00)
+        if rightPwm.value != abs(rightVal/100.00):
+            rightPwm.value = abs(rightVal/100.00)
         
         print(leftVal,rightVal)
             
