@@ -59,27 +59,27 @@ while n:
             right = -right
         else:
             rightDir.on()
-            
+
         if left < 0:
-            if leftDir.is_active and leftVal < 30:
+            if leftDir.is_active and leftVal < 30 and leftVal > 0:
                 leftDir.off()
                 leftVal = -left*0.3
             else:
                 left = -left
         else:
-            if not leftDir.is_active and leftVal < 30:
+            if not leftDir.is_active and leftVal < 30 and leftVal > 0:
                 leftDir.on()
                 leftVal = -left*0.3
             elif not leftDir.is_active:
                 left = -left
         if right < 0:
-            if rightDir.is_active and rightVal < 30:
+            if rightDir.is_active and rightVal < 30 and rightVal > 0:
                 rightDir.off()
                 rightVal = -right*0.3
             else:
                 right = -right
         else:
-            if not rightDir.is_active and rightVal < 30:
+            if not rightDir.is_active and rightVal < 30 and rightVal > 0:
                 rightDir.on()
                 rightVal = -right*0.3
             elif not rightDir.is_active:
