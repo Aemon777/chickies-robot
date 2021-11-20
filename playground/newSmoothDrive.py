@@ -46,9 +46,8 @@ while n:
         if left < -100:
             left = -100
         
-        print(left, right)
-        leftVal = round(0.7*leftVal + 0.3*left)
-        rightVal = round(0.7*rightVal + 0.3*right)
+        leftVal = round(0.75*leftVal + 0.25*left)
+        rightVal = round(0.75*rightVal + 0.25*right)
         
         if leftVal <= 2 and leftVal >= -2:
             leftVal = 0
@@ -63,6 +62,7 @@ while n:
             rightDir.off()
         elif rightVal > 0 and not rightDir.is_active:
             rightDir.on()
+
         if leftPwm.value != abs(leftVal/100.00):
             leftPwm.value = abs(leftVal/100.00)
         if rightPwm.value != abs(rightVal/100.00):
