@@ -1,3 +1,9 @@
+#This program implements drive functions using gpiozero with the intent of
+#receiving commands from a Flysky FS-i6 remote. The throttle is managed
+#by the left stick, turns by the right stick. Two switches are used: the 
+#left switch is up:forward/down:reverse. The second from the right is
+#up:normal/middle:half-speed/down:stop.
+
 import serial
 import gpiozero as gpio
 from time import sleep
@@ -10,6 +16,8 @@ with open("comports.yaml", "r") as stream:
     except yaml.YAMLError as exc:
         print(exc)
 
+#These are the motor variables. *Dir.on() sets direction forward, *Dir.off() backward
+#*Pwm.value = <pwm between 0 and 1>
 leftPwm = gpio.PWMLED(13)
 leftDir = gpio.LED(6)
 rightPwm = gpio.PWMLED(12)
@@ -27,10 +35,11 @@ while n:
         steering = int(data[0])
         secondaryThrottle = int(data[1])
         secondarySteering = int(data[3])
-        switchA = (int(data[4]) > 50)
+        #
+        reverse = (int(data[4]) > 50)
         maxPwm = 100 - int(data[5])
 
-        if switchA:
+        if reverse:
             throttle = -throttle
         
         speedModifier = throttle
