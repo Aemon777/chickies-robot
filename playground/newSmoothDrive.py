@@ -31,7 +31,7 @@ while n:
         switchB = round(int(data[5]) / 50)
         
         speedModifier = throttle
-        leftModifier = steering - 50
+        leftModifier = int(steering*1.5) - 75
         rightModifier = -leftModifier
         left = speedModifier + leftModifier
         if(left > 100):
@@ -43,27 +43,21 @@ while n:
         #print(left, right)
         
         if(left < 0):
-            if(leftVal == 0):
-                leftDir.off()
-            left = -left + 5
+            leftDir.off()
         else:
-            if(leftVal == 0):
-                leftDir.on()
+            leftDir.on()
             
         if(right < 0):
-            if(rightVal == 0):
-                rightDir.off()
-            right = -right + 5
+            rightDir.off()
         else:
-            if(rightVal == 0):
-                rightDir.on()
+            rightDir.on()
         
         leftVal = round(0.7*leftVal + 0.3*left)
         rightVal = round(0.7*rightVal + 0.3*right)
         
-        if(leftVal == 1):
+        if(leftVal <= 2):
             leftVal = 0
-        if(rightVal == 1):
+        if(rightVal <= 2):
             rightVal = 0
         leftPwm.value = leftVal/100.00
         rightPwm.value = rightVal/100.00
