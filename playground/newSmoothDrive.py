@@ -50,9 +50,9 @@ while n:
         leftVal = round(0.7*leftVal + 0.3*left)
         rightVal = round(0.7*rightVal + 0.3*right)
         
-        if(leftVal <= 2):
+        if leftVal <= 2 and leftVal >= -2:
             leftVal = 0
-        if(rightVal <= 2):
+        if rightVal <= 2 and rightVal >= -2:
             rightVal = 0
 
         if leftVal < 0 and leftDir.is_active:
