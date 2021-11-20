@@ -29,16 +29,22 @@ while n:
         secondarySteering = int(data[3])
         switchA = (int(data[4]) > 50)
         switchB = round(int(data[5]) / 50)
+        if switchA:
+            throttle = -throttle
         
         speedModifier = throttle
         leftModifier = int(steering*1.5) - 75
         rightModifier = -leftModifier
         left = speedModifier + leftModifier
-        if(left > 100):
-            left = 100
         right = speedModifier + rightModifier
-        if(right > 100):
+        if left > 100:
+            left = 100
+        if left < -100:
+            left = -100
+        if right > 100:
             right = 100
+        if left < -100:
+            left = -100
         
         #print(left, right)
         
@@ -53,7 +59,32 @@ while n:
             right = -right
         else:
             rightDir.on()
-        
+            
+        if left < 0:
+            if leftDir.is_active and leftVal < 30:
+                leftDir.off()
+                leftVal = -left*0.3
+            else:
+                left = -left
+        else:
+            if not leftDir.is_active and leftVal < 30:
+                leftDir.on()
+                leftVal = -left*0.3
+            elif not leftDir.is_active:
+                left = -left
+        if right < 0:
+            if rightDir.is_active and rightVal < 30:
+                rightDir.off()
+                rightVal = -right*0.3
+            else:
+                right = -right
+        else:
+            if not rightDir.is_active and rightVal < 30:
+                rightDir.on()
+                rightVal = -right*0.3
+            elif not rightDir.is_active:
+                right = -right
+
         leftVal = round(0.7*leftVal + 0.3*left)
         rightVal = round(0.7*rightVal + 0.3*right)
         
