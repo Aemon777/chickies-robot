@@ -44,11 +44,13 @@ while n:
         
         if(left < 0):
             leftDir.off()
+            left = -left
         else:
             leftDir.on()
             
         if(right < 0):
             rightDir.off()
+            right = -right
         else:
             rightDir.on()
         
