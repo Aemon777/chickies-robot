@@ -35,7 +35,6 @@ while n:
         steering = int(data[0])
         secondaryThrottle = int(data[1])
         secondarySteering = int(data[3])
-        #
         reverse = (int(data[4]) > 50)
         maxPwm = 100 - int(data[5])
 
@@ -56,13 +55,9 @@ while n:
             right = 100
         if left < -100:
             left = -100
-            
-        if maxPwm == 0:
-            left = 0
-            right = 0
-        elif maxPwm == 50:
-            left = left/2
-            right = right/2
+
+        left = left*maxPwm/100
+        right = right*maxPwm/100
 
         leftVal = round(0.75*leftVal + 0.25*left)
         rightVal = round(0.75*rightVal + 0.25*right)
