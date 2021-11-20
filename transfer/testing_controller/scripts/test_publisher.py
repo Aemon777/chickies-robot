@@ -4,7 +4,7 @@ import rospy
 from geometry_msgs.msg import Twist
 
 def test_publisher():
-	pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
+	pub = rospy.Publisher('motor_vel', Twist, queue_size = 10)
 	rospy.init_node('test_publisher', anonymous=True)
 	rate = rospy.Rate(50)
 	wait = rospy.Rate(0.5)
