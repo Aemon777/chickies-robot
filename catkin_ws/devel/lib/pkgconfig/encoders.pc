@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/chickies-robot/catkin_ws/devel
+
+Name: encoders
+Description: Description of encoders
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

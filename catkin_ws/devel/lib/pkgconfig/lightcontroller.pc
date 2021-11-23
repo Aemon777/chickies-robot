@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/chickies-robot/catkin_ws/devel
+
+Name: lightcontroller
+Description: Description of lightcontroller
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
