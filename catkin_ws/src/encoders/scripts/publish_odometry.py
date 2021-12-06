@@ -17,16 +17,25 @@ def talker():
     rospy.init_node('odometry', anonymous=True)
     rate = rospy.Rate(params['TEENSY_UPDATE_RATE'])
     while not rospy.is_shutdown():
-        read = serialPort.readline().decode('utf-8')
-        data = read.split(',')
-        leftTicks = int(data[1])
-        rightTicks = int(data[0])
-        #print(leftTicks)
-        rospy.loginfo(leftTicks)
-        rospy.loginfo(rightTicks)
-        leftEncoder.publish(leftTicks)
-        rightEncoder.publish(rightTicks)
-        rate.sleep()
+        try:
+            read = serialPort.readline().decode('utf-8')
+            data = read.split(',')
+            leftTicks = int(data[1])
+            rightTicks = int(data[0])
+            print(leftTicks,rightTicks)
+            #rospy.loginfo(leftTicks)
+            #rospy.loginfo(rightTicks)
+            leftEncoder.publish(leftTicks)
+            rightEncoder.publish(rightTicks)
+            rate.sleep()
+        except serial.serialutil.SerialException:
+            print('why is this happening to me????')
+            sleep(0.5)
+        except Exception as ex:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            print(message)
+            sleep(0.5)
     serialPort.close()
 
 if __name__ == '__main__':

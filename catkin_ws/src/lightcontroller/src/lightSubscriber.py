@@ -8,9 +8,9 @@ led = gpio.LED(27)
 def cbHeadlights(data):
     rospy.loginfo('Headlight state: ' + str(data.data))
     if(data.data):
-        led.on()
-    else:
         led.off()
+    else:
+        led.on()
     
 def listener():
     rospy.init_node('light_state_reader', anonymous=True)
