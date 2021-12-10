@@ -28,7 +28,7 @@ class motor_driver():
 		self.thetaVal = msg.angular.z
 	
 	def controlCallback(self,msg):
-		self.maxPwm = int(msg)
+		self.maxPwm = int(msg.data)
 
 	def spin(self):
 		while not rospy.is_shutdown():
