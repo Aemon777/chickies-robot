@@ -9,7 +9,6 @@ project(motor_controller)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
-  gpiozero
   roscpp
   rospy
   std_msgs
