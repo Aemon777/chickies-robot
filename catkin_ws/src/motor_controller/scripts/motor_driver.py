@@ -53,8 +53,6 @@ class motor_driver():
 		if steerLeft > 75:
 			steerLeft = 75
 			rospy.loginfo(String("angular max: 3.0 rad/s"))
-		if not self.for_rev:
-			throttle = -throttle
 
 		left = throttle + steerLeft
 		right = throttle - steerLeft
