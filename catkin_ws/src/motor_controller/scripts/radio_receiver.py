@@ -38,23 +38,21 @@ class radio_receiver():
         data = read.split(',')
         try:
             #twist/velocity message
+            for_rev = (int(data[4]) < 50)
             throttle = int(data[2])
             steer = int(data[0])
             steerLeft = (steer+1)*1.5 - 75
             vel = Twist()
             vel.linear.x = throttle*1.35/100
+            if not for_rev:
+                vel.linear.x = -vel.linear.x
             vel.angular.z = steerLeft/25
             rospy.loginfo(vel)
             self.pub_vel.publish(vel)
 
             #string/control message
-            for_rev = (int(data[4]) < 50)
             maxPwm = 100 - int(data[5])
             control = String()
-            if for_rev:
-                control.data += "FOR, "
-            else:
-                control.data += "REV, "
             control.data += str(maxPwm)
             rospy.loginfo(control)
             self.pub_control.publish(control)

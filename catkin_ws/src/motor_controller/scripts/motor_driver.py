@@ -21,7 +21,6 @@ class motor_driver():
 		self.xVal = 0
 		self.thetaVal = 0
 		self.rate = rospy.Rate(40)
-		self.for_rev = True
 		self.maxPwm = 100
 
 	def twistCallback(self,msg):
@@ -29,15 +28,16 @@ class motor_driver():
 		self.thetaVal = msg.angular.z
 	
 	def controlCallback(self,msg):
-		info = msg.data.split(',')
-		self.for_rev = info[0] == "FOR"
-		self.maxPwm = int(info[1])
+		self.maxPwm = int(msg)
 
 	def spin(self):
 		while not rospy.is_shutdown():
 			self.spinOnce()
 			self.rate.sleep()
 
+# Motor movement goals:
+#	Wheels should always be abs(steerLeft)*2 apart from each other
+#	Other than that, they should be moving at close to 
 	def spinOnce(self):
 		throttle = self.xVal * 100 / 1.35
 		if throttle > 100:
@@ -60,13 +60,21 @@ class motor_driver():
 		right = throttle - steerLeft
 
 		if left > 100:
+			rightShift = left - 100
 			left = 100
+			right = right - rightShift
 		if left < -100:
+			rightShift = abs(left) - 100
+			right = right + rightShift
 			left = -100
 		if right > 100:
+			leftShift = right - 100
+			left = left - leftShift
 			right = 100
-		if left < -100:
-			left = -100
+		if right < -100:
+			leftShift = abs(right) - 100
+			left = left + leftShift
+			right = -100
 		
 		
 		left = left*self.maxPwm/100
