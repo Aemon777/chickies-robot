@@ -8,7 +8,7 @@ import yaml
 
 class radio_receiver():
     def __init__(self):
-        with open("/home/ubuntu/chickies-robot/playground/comports.yaml", "r") as stream:
+        with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
             try:
                 data = yaml.safe_load(stream)
                 self.serialPort = serial.Serial(data['RADIO_PORT'],data['RADIO_BAUDRATE'])

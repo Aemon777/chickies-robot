@@ -6,7 +6,7 @@ from time import sleep
 import yaml
 
 def talker():
-    with open('/home/ubuntu/chickies-robot/playground/comports.yaml', "r") as stream:
+    with open('/home/ubuntu/chickies-robot/resources/comports.yaml', "r") as stream:
         try:
             params = yaml.safe_load(stream)
             serialPort=serial.Serial(params['TEENSY_PORT'],params['TEENSY_BAUDRATE'])

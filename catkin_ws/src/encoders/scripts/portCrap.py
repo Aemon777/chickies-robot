@@ -4,7 +4,7 @@ from time import sleep
 import yaml
 import os
 
-with open("/home/ubuntu/chickies-robot/playground/comports.yaml", "r") as stream:
+with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
     try:
         data = yaml.safe_load(stream)
         serialPort=serial.Serial(data['TEENSY_PORT'],data['TEENSY_BAUDRATE'])
@@ -30,7 +30,7 @@ while n:
         sleep(5)
         serialPort.close()
         sleep(5)
-        with open("/home/ubuntu/chickies-robot/playground/comports.yaml", "r") as stream:
+        with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
             try:
                 data = yaml.safe_load(stream)
                 serialPort=serial.Serial(data['TEENSY_PORT'],data['TEENSY_BAUDRATE'])

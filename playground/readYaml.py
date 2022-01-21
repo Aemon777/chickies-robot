@@ -1,6 +1,6 @@
 import yaml
 
-with open("comports.yaml", "r") as stream:
+with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
     try:
         data = yaml.safe_load(stream)
         
