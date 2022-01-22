@@ -34,46 +34,60 @@ class motor_driver():
 		while not rospy.is_shutdown():
 			self.spinOnce()
 			self.rate.sleep()
-
+			
+	def limitThrottle(throttle):
+		if throttle > 100:
+			throttle = 100
+			rospy.loginfo(String("throttle max: 1.35 m/s"))
+		elif throttle < -100:
+			throttle = -100
+			rospy.loginfo(String("throttle max: 1.35 m/s"))
+		return throttle
+	
+	def limitTurn(turn):
+		if turn < -75:
+			turn = -75
+			rospy.loginfo(String("angular max: 3.0 rad/s"))
+		elif turn > 75:
+			turn = 75
+			rospy.loginfo(String("angular max: 3.0 rad/s"))
+		return turn
+	
+	def limitValsAfterTurn(val, opVal):
+		shift = 0
+		if val > 100:
+			shift = val - 100
+			opVal = opVal - shift
+			val = 100
+		elif val < -100:
+			shift = abs(val) - 100
+			opVal = opVal + shift
+			val = -100
+		return val, opVal, shift
+	
+	def limitRoundedVal(val):
+		if val <= 2 and val >= -2:
+			val = 0
+		elif val > 100:
+			val = 100
+		elif self.leftVal < -100:
+			val = -100
+		return val
+	
 # Motor movement goals:
 #	Wheels should always be abs(steerLeft)*2 apart from each other
 #	Other than that, they should be moving at close to 
 	def spinOnce(self):
-		throttle = self.xVal * 100 / 1.35
-		if throttle > 100:
-			throttle = 100
-			rospy.loginfo(String("throttle max: 1.35 m/s"))
-		if throttle < -100:
-			throttle = -100
-			rospy.loginfo(String("throttle max: 1.35 m/s"))
-		steerLeft = self.thetaVal * 25
-		if steerLeft < -75:
-			steerLeft = -75
-			rospy.loginfo(String("angular max: 3.0 rad/s"))
-		if steerLeft > 75:
-			steerLeft = 75
-			rospy.loginfo(String("angular max: 3.0 rad/s"))
+		
+		throttle = limitThrottle(self.xVal * 100 / 1.35)
+		
+		steerLeft = limitTurn(self.thetaVal * 25)
 
 		left = throttle + steerLeft
 		right = throttle - steerLeft
 
-		if left > 100:
-			rightShift = left - 100
-			left = 100
-			right = right - rightShift
-		if left < -100:
-			rightShift = abs(left) - 100
-			right = right + rightShift
-			left = -100
-		if right > 100:
-			leftShift = right - 100
-			left = left - leftShift
-			right = 100
-		if right < -100:
-			leftShift = abs(right) - 100
-			left = left + leftShift
-			right = -100
-		
+		left, right, rightShift = limitValsAfterTurn(left, right)
+		right, left, leftShift = limitValsAfterTurn(right, left)
 		
 		left = left*self.maxPwm/100
 		right = right*self.maxPwm/100
@@ -81,18 +95,8 @@ class motor_driver():
 		self.leftVal = round(0.75*self.leftVal + 0.25*left)
 		self.rightVal = round(0.75*self.rightVal + 0.25*right)
 		
-		if self.leftVal <= 2 and self.leftVal >= -2:
-			self.leftVal = 0
-		elif self.leftVal > 100:
-			self.leftVal = 100
-		elif self.leftVal < -100:
-			self.leftVal = -100
-		if self.rightVal <= 2 and self.rightVal >= -2:
-			self.rightVal = 0
-		elif self.rightVal > 100:
-			self.rightVal = 100
-		elif self.rightVal < -100:
-			self.rightVal = -100
+		self.leftVal = limitRoundedVal(self.leftVal)
+		self.rightVal = limitRoundedVal(self.rightVal)
 
 		if self.leftVal < 0 and self.leftDir.is_active:
 			self.leftDir.off()
