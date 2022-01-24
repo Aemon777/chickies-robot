@@ -70,7 +70,7 @@ class motor_driver():
 			val = 0
 		elif val > 100:
 			val = 100
-		elif self.leftVal < -100:
+		elif val < -100:
 			val = -100
 		return val
 	
@@ -79,15 +79,15 @@ class motor_driver():
 #	Other than that, they should be moving at close to 
 	def spinOnce(self):
 		
-		throttle = limitThrottle(self.xVal * 100 / 1.35)
+		throttle = self.limitThrottle(self.xVal * 100 / 1.35)
 		
-		steerLeft = limitTurn(self.thetaVal * 25)
+		steerLeft = self.limitTurn(self.thetaVal * 25)
 
 		left = throttle + steerLeft
 		right = throttle - steerLeft
 
-		left, right, rightShift = limitValsAfterTurn(left, right)
-		right, left, leftShift = limitValsAfterTurn(right, left)
+		left, right, rightShift = self.limitValsAfterTurn(left, right)
+		right, left, leftShift = self.limitValsAfterTurn(right, left)
 		
 		left = left*self.maxPwm/100
 		right = right*self.maxPwm/100
@@ -95,8 +95,8 @@ class motor_driver():
 		self.leftVal = round(0.75*self.leftVal + 0.25*left)
 		self.rightVal = round(0.75*self.rightVal + 0.25*right)
 		
-		self.leftVal = limitRoundedVal(self.leftVal)
-		self.rightVal = limitRoundedVal(self.rightVal)
+		self.leftVal = self.limitRoundedVal(self.leftVal)
+		self.rightVal = self.limitRoundedVal(self.rightVal)
 
 		if self.leftVal < 0 and self.leftDir.is_active:
 			self.leftDir.off()
