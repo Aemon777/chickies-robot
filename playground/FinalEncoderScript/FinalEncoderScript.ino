@@ -9,7 +9,7 @@
 #define RIGHTDIR 11;
 #define RIGHTPWM 12;
 
-#define TICKSPERMETER 21500;
+#define TICKSPERMETER 138000;
 #define MAXSPEED 1.35;
 #define MAXPWM 255;
 
@@ -35,13 +35,15 @@ std_msgs::Int8 encoderResetMsg;
 
 void leftCallback( const std_msgs::Float32& msg ) {
   // Update left side coefficient using travel / time and old pwm
-  long newMillis = knobLeft.read();
-  unsigned long newTime = millis();
-  float curSpeed = (newTicks - leftTicks)/(newTime - leftMillis);
+  long newTicks = knobLeft.read();
+  unsigned long newMillis = millis();
+  if (curLeftPwm < 15) {
+    float curSpeed = (newTicks - leftTicks)/(newMillis - leftMillis);
+    curSpeed = curSpeed / TICKSPERMETER * 1000;
+    leftCo = (float) curLeftPwm / curSpeed;
+  }
   leftTicks = newTicks;
   leftMillis = newMillis;
-  curSpeed = curSpeed / TICKSPERMETER * 1000;
-  leftCo = (float) curLeftPwm / curSpeed;
   //Convert leftVelMsg.data to direction and vel
   float vel = msg.data;
   if (vel < 0) {
@@ -60,13 +62,16 @@ void leftCallback( const std_msgs::Float32& msg ) {
 
 void rightCallback( const std_msgs::Float32& msg ) {
   // Update right side coefficient using travel / time and old pwm
-  long newMillis = knobLeft.read();
-  unsigned long newTime = millis();
-  float curSpeed = (newTicks - rightTicks)/(newTime - rightMillis);
+  long newTicks = knobLeft.read();
+  unsigned long newMillis = millis();
+  if (curRightPwm < 15) {
+    float curSpeed = (newTicks - rightTicks)/(newMillis - rightMillis);
+    curSpeed = curSpeed / TICKSPERMETER * 1000;
+    rightCo = (float) curRightPwm / curSpeed;
+  }
   rightTicks = newTicks;
   rightMillis = newMillis;
-  curSpeed = curSpeed / TICKSPERMETER * 1000;
-  rightCo = (float) curRightPwm / curSpeed;
+  
   //Convert leftVelMsg.data to direction and vel
   float vel = msg.data;
   if (vel < 0) {
@@ -86,7 +91,10 @@ void rightCallback( const std_msgs::Float32& msg ) {
 void resetCallback( const std_msgs::Int8& msg ) {
   int8_t reset = msg.data;
   if (reset == 1) {
-    //reset
+    leftTicks = 0;
+    leftMillis = millis(0);
+    rightTicks = 0;
+    rightMillis = millis(0;
   }
 }
 
@@ -116,11 +124,27 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  // at 10 Hz, encoders: check for motion
-  // if motion, record current ticks and publish
-  // this can be with a counter of some sort or we can make this a while true, for i = 1:5 kinda thing
-  // at 50 Hz, spin node handler
-  // this will handle callbacks for ticks sides
-  delay(20);
+  long encoderLeft = leftTicks;
+  long encoderRight = rightTicks;
+  while(true){
+    if (encoderLeft != leftTicks) {
+      leftTicksMsg.data = leftTicks;
+      leftTicksPublisher.publish( &leftTicksMsg );
+      encoderLeft = leftTicks;
+    }
+    if (encoderRight != rightTicks) {
+      rightTicksMsg.data = rightTicks;
+      rightTicksPublisher.publish( &rightTicksMsg );
+      encoderRight = rightTicks;
+    }
+    for (j = 0; j < 5; j++) {
+      delay(19);
+      nodeHandler.spinOnce();
+      curMillis = millis();
+      if (curMillis - leftMillis > 250 || curMillis - leftMillis > 250) {
+        analogWrite(LEFTPWM, 0);
+        analogWrite(RIGHTPWM, 0);
+      }
+    }
+  }
 }
