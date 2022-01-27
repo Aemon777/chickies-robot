@@ -22,9 +22,8 @@ void loop() {
   if(currentMillis - previousMillis >= interval){
     previousMillis = currentMillis;
     double newLeft, newRight;
-    //divide by 215 for converting to centimeters
-    newLeft = knobLeft.read() / 215.00;
-    newRight = knobRight.read() / 215.00;
+    newLeft = knobLeft.read();
+    newRight = knobRight.read();
     if (newLeft != positionLeft || newRight != positionRight) {
       Serial.print("Left = ");
       Serial.print(newLeft);

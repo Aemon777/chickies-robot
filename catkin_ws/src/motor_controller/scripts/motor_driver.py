@@ -63,7 +63,7 @@ class motor_driver():
 			shift = abs(val) - 100
 			opVal = opVal + shift
 			val = -100
-		return val, opVal, shift
+		return val, opVal
 	
 	def limitRoundedVal(val):
 		if val <= 2 and val >= -2:
@@ -86,8 +86,8 @@ class motor_driver():
 		left = throttle + steerLeft
 		right = throttle - steerLeft
 
-		left, right, rightShift = self.limitValsAfterTurn(left, right)
-		right, left, leftShift = self.limitValsAfterTurn(right, left)
+		left, right = self.limitValsAfterTurn(left, right)
+		right, left = self.limitValsAfterTurn(right, left)
 		
 		left = left*self.maxPwm/100
 		right = right*self.maxPwm/100
