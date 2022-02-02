@@ -26,11 +26,11 @@ class motor_driver():
 		self.xVal = 0
 		self.thetaVal = 0
 		self.rate = rospy.Rate(40)
-		self.maxVel = 1.25
+		self.maxVel = 1250 #mm/sec
 		self.maxRads = 3
 
 	def twistCallback(self,msg):
-		self.xVal = msg.linear.x
+		self.xVal = round(msg.linear.x * 1000)
 		self.thetaVal = msg.angular.z
 	
 	def controlCallback(self,msg):
@@ -101,8 +101,10 @@ class motor_driver():
 		
 		self.leftVel = self.limitRoundedVal(self.leftVel, self.maxVel)
 		self.rightVel = self.limitRoundedVal(self.rightVel, self.maxVel)
+
 		serialString = "V," + str(self.leftVel) + "," + str(self.rightVel) + ",**"
 		self.serialPort.write(bytes(serialString, "utf-8"))
+		
 		logString = String(str(self.xVal) + ", " + str(self.thetaVal) + ": " + str(self.leftVel) + ", " + str(self.rightVel))
 		rospy.loginfo(logString)
 
