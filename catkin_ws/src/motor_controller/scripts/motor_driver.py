@@ -13,15 +13,10 @@ class motor_driver():
 
 		self.leftVal = 0
 		self.rightVal = 0
-		self.leftPwm = gpio.PWMLED(13)
-		self.rightPwm = gpio.PWMLED(12)
-		self.leftDir = gpio.LED(6)
-		self.rightDir = gpio.LED(5)
-		self.n = True
 		self.xVal = 0
 		self.thetaVal = 0
 		self.rate = rospy.Rate(40)
-		self.maxPwm = 100
+		self.maxVel = 1.25
 
 	def twistCallback(self,msg):
 		self.xVal = msg.linear.x
