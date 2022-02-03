@@ -44,19 +44,19 @@ class motor_driver():
 	def limitThrottle(self, throttle, max):
 		if throttle > max:
 			throttle = max
-			rospy.loginfo(String("throttle max: " + max + " m/s"))
+			rospy.loginfo(String("throttle max: " + str(max) + " m/s"))
 		elif throttle < -max:
 			throttle = -max
-			rospy.loginfo(String("throttle min: -" + max + " m/s"))
+			rospy.loginfo(String("throttle min: -" + str(max) + " m/s"))
 		return throttle
 	
 	def limitTurn(self, turn, max):
 		if turn > max:
 			turn = max
-			rospy.loginfo(String("angular max: " + max + " rad/s"))
+			rospy.loginfo(String("angular max: " + str(max) + " rad/s"))
 		elif turn < -max:
 			turn = -max
-			rospy.loginfo(String("angular min: -" + max + " rad/s"))
+			rospy.loginfo(String("angular min: -" + str(max) + " rad/s"))
 		return turn
 	
 	def limitValsAfterTurn(self, val, opVal, max):
