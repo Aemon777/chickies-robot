@@ -11,7 +11,6 @@ class motor_driver():
 	def __init__(self):
 		rospy.init_node('motor_driver', anonymous=True)
 		rospy.Subscriber("motor_vel", Twist, self.twistCallback)
-		rospy.Subscriber("motor_control", String, self.controlCallback)
 
 		self.serialPort = ""
 		with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
@@ -32,9 +31,6 @@ class motor_driver():
 	def twistCallback(self,msg):
 		self.xVal = round(msg.linear.x * 1000)
 		self.thetaVal = msg.angular.z
-	
-	def controlCallback(self,msg):
-		self.maxVel = int(msg.data)
 
 	def spin(self):
 		while not rospy.is_shutdown():
