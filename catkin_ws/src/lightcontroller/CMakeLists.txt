@@ -203,6 +203,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-catkin_install_python(PROGRAMS src/lightPublisher.py src/lightSubscriber.py
+catkin_install_python(PROGRAMS src/headlightPub.py src/headlightSub.py src/warninglightPub.py src/warninglightSub.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
