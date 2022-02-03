@@ -9,7 +9,7 @@ import gpiozero as gpio
 from time import sleep
 import yaml
 
-with open("comports.yaml", "r") as stream:
+with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
     try:
         data = yaml.safe_load(stream)
         serialPort=serial.Serial(data['RADIO_PORT'],data['RADIO_BAUDRATE'])

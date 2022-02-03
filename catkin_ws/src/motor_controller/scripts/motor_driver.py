@@ -1,9 +1,11 @@
 #!/usr/bin/env/python
 
+from difflib import context_diff
 import rospy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
-import gpiozero as gpio
+import yaml
+import serial
 
 class motor_driver():
 	def __init__(self):
@@ -11,110 +13,103 @@ class motor_driver():
 		rospy.Subscriber("motor_vel", Twist, self.twistCallback)
 		rospy.Subscriber("motor_control", String, self.controlCallback)
 
-		self.leftVal = 0
-		self.rightVal = 0
-		self.leftPwm = gpio.PWMLED(13)
-		self.rightPwm = gpio.PWMLED(12)
-		self.leftDir = gpio.LED(6)
-		self.rightDir = gpio.LED(5)
-		self.n = True
+		self.serialPort
+		with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
+			try:
+				data = yaml.safe_load(stream)
+				self.serialPort=serial.Serial(data['TEENSY_PORT'],data['TEENSY_BAUDRATE'])
+			except yaml.YAMLError as exc:
+				print(exc)
+
+		self.leftVel = 0
+		self.rightVel = 0
 		self.xVal = 0
 		self.thetaVal = 0
-		self.rate = rospy.Rate(40)
-		self.maxPwm = 100
+		self.rate = rospy.Rate(10)
+		self.maxVel = 1250 #mm/sec
+		self.maxRads = 3
 
 	def twistCallback(self,msg):
-		self.xVal = msg.linear.x
+		self.xVal = round(msg.linear.x * 1000)
 		self.thetaVal = msg.angular.z
 	
 	def controlCallback(self,msg):
-		self.maxPwm = int(msg.data)
+		self.maxVel = int(msg.data)
 
 	def spin(self):
 		while not rospy.is_shutdown():
 			self.spinOnce()
 			self.rate.sleep()
-
+			
+	def limitThrottle(throttle, max):
+		if throttle > max:
+			throttle = max
+			rospy.loginfo(String("throttle max: " + max + " m/s"))
+		elif throttle < -max:
+			throttle = -max
+			rospy.loginfo(String("throttle min: -" + max + " m/s"))
+		return throttle
+	
+	def limitTurn(turn, max):
+		if turn > max:
+			turn = max
+			rospy.loginfo(String("angular max: " + max + " rad/s"))
+		elif turn < -max:
+			turn = -max
+			rospy.loginfo(String("angular min: -" + max + " rad/s"))
+		return turn
+	
+	def limitValsAfterTurn(val, opVal, max):
+		shift = 0
+		if val > max:
+			shift = val - max
+			opVal = opVal - shift
+			val = max
+		elif val < -max:
+			shift = abs(val) - max
+			opVal = opVal + shift
+			val = -max
+		return val, opVal
+	
+	def limitRoundedVal(val, max):
+		if val <= 30 and val >= -30:
+			val = 0
+		elif val > 30 and val < 50:
+			val = 50
+		elif val < -30 and val > -50:
+			val = -50
+		elif val > max:
+			val = max
+		elif val < -max:
+			val = -max
+		return val
+	
 # Motor movement goals:
 #	Wheels should always be abs(steerLeft)*2 apart from each other
 #	Other than that, they should be moving at close to 
 	def spinOnce(self):
-		throttle = self.xVal * 100 / 1.35
-		if throttle > 100:
-			throttle = 100
-			rospy.loginfo(String("throttle max: 1.35 m/s"))
-		if throttle < -100:
-			throttle = -100
-			rospy.loginfo(String("throttle max: 1.35 m/s"))
-		steerLeft = self.thetaVal * 25
-		if steerLeft < -75:
-			steerLeft = -75
-			rospy.loginfo(String("angular max: 3.0 rad/s"))
-		if steerLeft > 75:
-			steerLeft = 75
-			rospy.loginfo(String("angular max: 3.0 rad/s"))
-
-		left = throttle + steerLeft
-		right = throttle - steerLeft
-
-		if left > 100:
-			rightShift = left - 100
-			left = 100
-			right = right - rightShift
-		if left < -100:
-			rightShift = abs(left) - 100
-			right = right + rightShift
-			left = -100
-		if right > 100:
-			leftShift = right - 100
-			left = left - leftShift
-			right = 100
-		if right < -100:
-			leftShift = abs(right) - 100
-			left = left + leftShift
-			right = -100
 		
+		throttle = self.limitThrottle(self.xVal, self.maxVel)
 		
-		left = left*self.maxPwm/100
-		right = right*self.maxPwm/100
+		turn = self.limitTurn(self.thetaVal, self.maxRads)
+		# recall that turn, here, is directly proportional to right velocity and inversely so to left velocity
+		# Ccw and all that
+		left = throttle - turn/3.6*self.maxVel
+		right = throttle + turn/3.6*self.maxVel
 
-		self.leftVal = round(0.75*self.leftVal + 0.25*left)
-		self.rightVal = round(0.75*self.rightVal + 0.25*right)
+		left, right = self.limitValsAfterTurn(left, right, self.maxVel)
+		right, left = self.limitValsAfterTurn(right, left, self.maxVel)
+
+		self.leftVel = round(0.75*self.leftVel + 0.25*left)
+		self.rightVel = round(0.75*self.rightVel + 0.25*right)
 		
-		if self.leftVal <= 2 and self.leftVal >= -2:
-			self.leftVal = 0
-		elif self.leftVal > 100:
-			self.leftVal = 100
-		elif self.leftVal < -100:
-			self.leftVal = -100
-		if self.rightVal <= 2 and self.rightVal >= -2:
-			self.rightVal = 0
-		elif self.rightVal > 100:
-			self.rightVal = 100
-		elif self.rightVal < -100:
-			self.rightVal = -100
+		self.leftVel = self.limitRoundedVal(self.leftVel, self.maxVel)
+		self.rightVel = self.limitRoundedVal(self.rightVel, self.maxVel)
 
-		if self.leftVal < 0 and self.leftDir.is_active:
-			self.leftDir.off()
-			print("left wheel back")
-		elif self.leftVal > 0 and not self.leftDir.is_active:
-			self.leftDir.on()
-			print("left wheel forward")
-		if self.rightVal < 0 and self.rightDir.is_active:
-			self.rightDir.off()
-			print("right wheel backward")
-		elif self.rightVal > 0 and not self.rightDir.is_active:
-			self.rightDir.on()
-			print("right wheel forward")
-
-		if self.leftPwm.value != abs(self.leftVal/100.00):
-			self.leftPwm.value = abs(self.leftVal/100.00)
-			print("left pwm updated to " + str(self.leftPwm.value))
-		if self.rightPwm.value != abs(self.rightVal/100.00):
-			self.rightPwm.value = abs(self.rightVal/100.00)
-			print("right pwm updated to " + str(self.rightPwm.value))
-
-		logString = String(str(self.xVal) + ", " + str(self.thetaVal) + ": " + str(self.leftVal) + ", " + str(self.rightVal))
+		serialString = "V," + str(self.leftVel) + "," + str(self.rightVel) + ",**"
+		self.serialPort.write(bytes(serialString, "utf-8"))
+		
+		logString = String(str(self.xVal) + ", " + str(self.thetaVal) + ": " + str(self.leftVel) + ", " + str(self.rightVel))
 		rospy.loginfo(logString)
 
 
