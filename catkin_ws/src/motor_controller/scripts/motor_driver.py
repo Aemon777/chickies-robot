@@ -25,7 +25,7 @@ class motor_driver():
 		self.rightVel = 0
 		self.xVal = 0
 		self.thetaVal = 0
-		self.rate = rospy.Rate(40)
+		self.rate = rospy.Rate(10)
 		self.maxVel = 1250 #mm/sec
 		self.maxRads = 3
 
@@ -72,8 +72,12 @@ class motor_driver():
 		return val, opVal
 	
 	def limitRoundedVal(val, max):
-		if val <= 2 and val >= -2:
+		if val <= 30 and val >= -30:
 			val = 0
+		elif val > 30 and val < 50:
+			val = 50
+		elif val < -30 and val > -50:
+			val = -50
 		elif val > max:
 			val = max
 		elif val < -max:
