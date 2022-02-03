@@ -50,12 +50,6 @@ class radio_receiver():
             rospy.loginfo(vel)
             self.pub_vel.publish(vel)
 
-            #string/control message
-            maxPwm = 100 - int(data[5])
-            control = String()
-            control.data += str(maxPwm)
-            rospy.loginfo(control)
-            self.pub_control.publish(control)
         except ValueError:
            self.errorCount += 1
            if self.errorCount % 10 == 0:
