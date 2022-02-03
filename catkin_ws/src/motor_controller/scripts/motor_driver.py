@@ -100,11 +100,8 @@ class motor_driver():
 		left, right = self.limitValsAfterTurn(left, right, self.maxVel)
 		right, left = self.limitValsAfterTurn(right, left, self.maxVel)
 
-		self.leftVel = round(0.75*self.leftVel + 0.25*left)
-		self.rightVel = round(0.75*self.rightVel + 0.25*right)
-		
-		self.leftVel = self.limitRoundedVal(self.leftVel, self.maxVel)
-		self.rightVel = self.limitRoundedVal(self.rightVel, self.maxVel)
+		self.leftVel = round(left)
+		self.rightVel = round(right)
 
 		serialString = "V," + str(self.leftVel) + "," + str(self.rightVel) + ",**"
 		self.serialPort.write(bytes(serialString, "utf-8"))
