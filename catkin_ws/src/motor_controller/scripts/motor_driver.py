@@ -41,7 +41,7 @@ class motor_driver():
 			self.spinOnce()
 			self.rate.sleep()
 			
-	def limitThrottle(throttle, max):
+	def limitThrottle(self, throttle, max):
 		if throttle > max:
 			throttle = max
 			rospy.loginfo(String("throttle max: " + max + " m/s"))
@@ -50,7 +50,7 @@ class motor_driver():
 			rospy.loginfo(String("throttle min: -" + max + " m/s"))
 		return throttle
 	
-	def limitTurn(turn, max):
+	def limitTurn(self, turn, max):
 		if turn > max:
 			turn = max
 			rospy.loginfo(String("angular max: " + max + " rad/s"))
@@ -59,7 +59,7 @@ class motor_driver():
 			rospy.loginfo(String("angular min: -" + max + " rad/s"))
 		return turn
 	
-	def limitValsAfterTurn(val, opVal, max):
+	def limitValsAfterTurn(self, val, opVal, max):
 		shift = 0
 		if val > max:
 			shift = val - max
@@ -71,7 +71,7 @@ class motor_driver():
 			val = -max
 		return val, opVal
 	
-	def limitRoundedVal(val, max):
+	def limitRoundedVal(self, val, max):
 		if val <= 30 and val >= -30:
 			val = 0
 		elif val > 30 and val < 50:
