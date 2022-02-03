@@ -13,7 +13,7 @@ class motor_driver():
 		rospy.Subscriber("motor_vel", Twist, self.twistCallback)
 		rospy.Subscriber("motor_control", String, self.controlCallback)
 
-		self.serialPort
+		self.serialPort = ""
 		with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
 			try:
 				data = yaml.safe_load(stream)
