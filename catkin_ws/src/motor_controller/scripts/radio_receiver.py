@@ -40,7 +40,7 @@ class radio_receiver():
             for_rev = (int(data[4]) < 50)
             throttle = int(data[2])
             steer = -1 if int(data[0]) == 0 else int(data[0])
-            steerLeft = (steer+1)*1.5 - 75
+            steerLeft = (steer)*1.5 - 75
             vel = Twist()
             vel.linear.x = throttle*1.25/100
             if not for_rev:
