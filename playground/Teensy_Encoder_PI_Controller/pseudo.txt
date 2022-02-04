@@ -1,0 +1,27 @@
+
+#include <Arduino.h>, "QuadEncoder.h", <SimpleKalmanFilter.h>, <AutoPID.h>
+
+#define pinNumbers
+
+#define constants
+
+#define PIDparameters
+
+Start encoder readers using the QuadEncoder library
+
+Start SimpleKalmanFilters at 10, 10, 0.01
+
+Define global variables, startnig them at 0:
+    previous ticks and time for left and right
+    Previous loop time
+    pwm, target, input, output, setPoint for left and right
+    commTimer?
+
+Start AutoPID with pointers to input, setpoint, output  
+    Also constants output_min, output_max, and kp, ki, kd coeffs
+
+
+printstuff(target speed left, final speed left, output left, pwm left, same right)
+    Print all the above
+    Right now looks like it shouldn't work
+
