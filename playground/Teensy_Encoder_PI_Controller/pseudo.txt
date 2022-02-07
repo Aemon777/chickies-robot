@@ -25,3 +25,30 @@ printstuff(target speed left, final speed left, output left, pwm left, same righ
     Print all the above
     Right now looks like it shouldn't work
 
+resetTicks()
+    Write 0 to both encoders
+
+calculateSpeed(long c_ticks, long &p_ticks, unsigned long c_time, unsigned long &p_time)
+    c_ticks is current, p_ticks is past
+    Calculate um based on delta ticks * 1000 / ticks per mm
+    Then calculate um/s and update values
+
+static inline int8_t sgn(int or long val)
+    One function for each var type
+    Returns -1, 0, 1 based onn sign
+
+parseSerial()
+    A workhorse function
+    Parse out the incoming string for its possible types
+    Adjust target speeds if applicable
+
+setup
+    Begin Serial, Serial1
+    Set encoder conigurations and start reading
+    Set pinmodes for pwm and direction
+    Set higher resolution and frequency for writing
+    Never activate bangBang
+    Start commTimer
+
+loop
+    
