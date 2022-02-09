@@ -1,0 +1,62 @@
+2/9/22, afternoon
+Blackburn finished a draft of Teensy script that uses a dynamic smoother to attempt to reach
+    target velocities for each wheel side
+
+Murphy now testing the Teensy and motor controller interaction
+
+    Conclusion 1: Over 40 seconds of messages from motor_driver.py cause the Teensy to enter a bad state
+        Both wheels go into a state of full reverse and do not respond to commands in any way
+    Conclusion 2: Door-side wheels (not sure which side that is left/right) can reach a bad state
+        Sometimes the ds wheels do not respond to commands to slow down, only to go the opposite direction
+        Cannot reproduce this on demand
+    Conclusion 3: Filtering is effective
+        Robot moves and changes directions smoothly under load
+    
+Test 1
+    Accelerate from 0 to full throttle -- wait
+        Good until radio receiver jumped the tracks
+        Then system broke, Teensy reversed direction, stopped listening to commands from pi
+        Disconnected Teensy from power
+Test 2
+    Accelerate from 0 to full throttle -- wait
+        Radio receiver again broke system
+        Note: radio receiver does not break unless sending some kind of signal
+Test 3
+    Accelerate from 0 to full throttle -- wait
+        Good about 10 seconds
+    Decelerate back to 0
+        Bad: left side continued spinning
+    Accelerate back to full
+        Radio receiver code broke, causing full reverse
+        Note: restarting systems does not fix Teensy state after this
+Test 4
+    Accelerate to about half
+        Both motors Good
+    Attempt to decelerate
+        Left wheel moves forward as before, not decelerating
+    Attempt to turn
+        Left wheel decelerates when told to go in the reverse direction!
+        Looks like some problem with left wheel deceleration command code
+    Both wheels go to reverse without radio receiver failure
+        Looks like after some amount of time with motor_driver.py running, the filter breaks
+        Maybe a parsing issue?
+Test 5
+    Just turned motor_driver.py on and left it for a while, 3 times
+        Trial 1: full reverse at about 39 seconds
+        Trial 2: full reverse at about 40 seconds
+        Trial 3: full reverse at about 42 seconds
+        Clear pattern observed
+Test 6
+    Turned Teensy on, waited over 3 minutes
+    No reverse observed
+Test 7
+    Turned motor_driver.py on then immediately off, set timer
+        No effect
+    Turned it on and off repeatedly until over 60 seconds of uptime had accumulated
+        No effect
+Test 8
+    Turned robot on and drove it in short bursts (battery power)
+    Acceleration to dead run quite smooth
+    Robot well able to move from dead forward to dead reverse, transition smooth
+    Turning is excellent, easy to move between curve, pivot, swivel
+
