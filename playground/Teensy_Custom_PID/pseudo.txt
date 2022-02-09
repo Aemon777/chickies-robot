@@ -1,0 +1,54 @@
+
+#include <Arduino.h>, "QuadEncoder.h", <SimpleKalmanFilter.h>, <AutoPID.h>
+
+#define pinNumbers
+
+#define constants
+
+#define PIDparameters
+
+Start encoder readers using the QuadEncoder library
+
+Start SimpleKalmanFilters at 10, 10, 0.01
+
+Define global variables, startnig them at 0:
+    previous ticks and time for left and right
+    Previous loop time
+    pwm, target, input, output, setPoint for left and right
+    commTimer?
+
+Start AutoPID with pointers to input, setpoint, output  
+    Also constants output_min, output_max, and kp, ki, kd coeffs
+
+
+printstuff(target speed left, final speed left, output left, pwm left, same right)
+    Print all the above
+    Right now looks like it shouldn't work
+
+resetTicks()
+    Write 0 to both encoders
+
+calculateSpeed(long c_ticks, long &p_ticks, unsigned long c_time, unsigned long &p_time)
+    c_ticks is current, p_ticks is past
+    Calculate um based on delta ticks * 1000 / ticks per mm
+    Then calculate um/s and update values
+
+static inline int8_t sgn(int or long val)
+    One function for each var type
+    Returns -1, 0, 1 based onn sign
+
+parseSerial()
+    A workhorse function
+    Parse out the incoming string for its possible types
+    Adjust target speeds if applicable
+
+setup
+    Begin Serial, Serial1
+    Set encoder conigurations and start reading
+    Set pinmodes for pwm and direction
+    Set higher resolution and frequency for writing
+    Never activate bangBang
+    Start commTimer
+
+loop
+    
