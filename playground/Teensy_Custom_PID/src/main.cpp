@@ -141,18 +141,31 @@ void setup() {
   commTimer = millis();
 }
 void loop() {
+  /*if(millis() > 5000)
+    targetSpeedR = -200;
+  if(millis() > 10000)
+    targetSpeedR = 400;
+  if(millis() > 15000)
+    targetSpeedR = -600;
+  if(millis() > 20000)
+    targetSpeedR = 800;
+  if(millis() > 25000)
+    targetSpeedR = -1000;
+  if(millis() > 30000)
+    targetSpeedR = 1200;
+  if(millis() > 35000)
+    targetSpeedR = 0;//*/
   if(millis() - previousLoopTime > 20) {
     previousLoopTime = millis();
     if(millis() - commTimer > serial_dead_time) {
-      targetSpeedL = targetSpeedR = 0;
+      //targetSpeedL = targetSpeedR = 0;
     }
     if(Serial.available() > 0) {
       if(parseSerial() == 1) {
         commTimer = millis();
       }
     }
-    static double kpL=0.3, kiL=12.0, maxAllowablenotanintegralL=100, proportionalL=0, notanintegralL=0, adjustL=0;
-    static double kpR=0.3, kiR=12.0, maxAllowablenotanintegralR=100, proportionalR=0, notanintegralR=0, adjustR=0;
+    static double adjustL=0, adjustR=0;
     static unsigned long previousTimeL=0, previousTimeR=0;
     static long long previousTicksL=0, previousTicksR=0;
     double currentSpeedL = speedFilterL.updateEstimate(calculateSpeed(encL.read(), previousTicksL, millis(), previousTimeL));
@@ -160,25 +173,13 @@ void loop() {
     double currentSpeedR = speedFilterR.updateEstimate(calculateSpeed(encR.read(), previousTicksR, millis(), previousTimeR));
     double currentSpeedErrorR = currentSpeedR - targetSpeedR;
 
-    kiL = map(abs(currentSpeedL), 0, 1500, 6.0, 12.0);
-    proportionalL = -currentSpeedErrorL;
-    notanintegralL = currentSpeedErrorL * (0.02);
-    if(notanintegralL > maxAllowablenotanintegralL) {
-      notanintegralL = maxAllowablenotanintegralL;
-    }
-    kiR = map(abs(currentSpeedR), 0, 1500, 6.0, 12.0);
-    proportionalR = -currentSpeedErrorR;
-    notanintegralR = currentSpeedErrorR * (0.02);
-    if(notanintegralR > maxAllowablenotanintegralR) {
-      notanintegralR = maxAllowablenotanintegralR;
-    }
-    
-    adjustL = kpL*proportionalL + kiL*notanintegralL;
+    adjustL = (abs(currentSpeedL)/12500.0 - 0.18) * currentSpeedErrorL;
     adjustL = constrain(adjustL, -100, 100);
     if(abs(adjustL) < 1) {
       adjustL = 0;
     }
-    adjustR = kpR*proportionalR + kiR*notanintegralR;
+
+    adjustR = (abs(currentSpeedR)/12500.0 - 0.18) * currentSpeedErrorR;
     adjustR = constrain(adjustR, -100, 100);
     if(abs(adjustR) < 1) {
       adjustR = 0;
@@ -191,8 +192,8 @@ void loop() {
     setMotor(left, PWML);
     setMotor(right, PWMR);
 
-    /*Serial3.println(adjustL);
-    Serial1.println("Target_Speed"+String(targetSpeedL)+
+    //Serial3.println(adjustL);
+    /*Serial1.println("Target_Speed"+String(targetSpeedL)+
                     ",Current_Speed"+String(currentSpeedL)+
                     ",Speed_Error"+String(currentSpeedErrorL)+
                     ",PWM"+String(PWML));
@@ -202,6 +203,6 @@ void loop() {
     Serial1.print(",");
     Serial1.print(currentSpeedErrorL);
     Serial1.print(",");
-    Serial1.println(0);*/
+    Serial1.println(0);//*/
   }
 }
