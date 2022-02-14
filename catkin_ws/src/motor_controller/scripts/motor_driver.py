@@ -25,8 +25,8 @@ class motor_driver():
 		self.xVal = 0
 		self.thetaVal = 0
 		self.rate = rospy.Rate(10)
-		self.maxVel = 1250 #mm/sec
-		self.maxRads = 3
+		self.maxVel = 1000 #mm/sec
+		self.maxRads = 2.4
 
 	def twistCallback(self,msg):
 		self.xVal = round(msg.linear.x * 1000)
