@@ -1,5 +1,4 @@
 import serial
-import gpiozero as gpio
 from time import sleep
 import yaml
 
@@ -16,8 +15,15 @@ while n:
     try:
         read = serialPort.readline().decode('utf-8')
         data = read.split(',')
+        if(data[0] == 'E'):
+            leftTicks = data[1]
+            rightTicks = data[2]
+
+        print(data[0])
+        print(leftTicks)
+        print(rightTicks)
+        print(data[3])
         
-        print(data)
             
     except KeyboardInterrupt:
         n = False
