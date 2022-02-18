@@ -2,4 +2,6 @@
     <include file="$(find lightcontroller)/launch/startup.launch" />
     <include file="$(find odometry)/launch/main.launch" />
     <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+    <include file="$(find sensor_tf)/launch/tf_launch.launch" />
+    <!--<include file="$(find motor_controller)/launch/drive.launch" />-->
 </launch>
