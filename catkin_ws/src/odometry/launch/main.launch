@@ -1,0 +1,45 @@
+<launch>
+    <!-- IMU Data Publisher Using the ICM20948 IMU Sensor -->
+    <!-- Publish: /imu/data -->    
+    <node name="imu_pub" pkg="odometry" type="imu_pub.py" respawn="true" respawn_delay="2">
+    </node>
+
+    <!-- IMU Data Publisher Using the ICM20948 IMU Sensor -->
+    <!-- Publish: /imu/data -->    
+    <node name="encoder_pub" pkg="odometry" type="encoder_pub.py" respawn="true" respawn_delay="2">
+    </node>
+
+    <!-- Initial Pose and Goal Publisher -->
+    <!-- Publish: /initialpose, /move_base_simple/goal -->
+<!-- <node pkg="rviz" type="rviz" name="rviz">
+</node> -->
+
+    <!-- Subscribe: /initialpose, /move_base_simple/goal -->
+    <!-- Publish: /initial_2d, /goal_2d -->
+    <node pkg="odometry" type="rviz_click_to_2d" name="rviz_click_to_2d">
+    </node>  
+
+    <!-- Wheel Odometry Publisher -->
+    <!-- Subscribe: /right_ticks, /left_ticks, /initial_2d -->
+    <!-- Publish: /odom_data_euler, /odom_data_quat -->
+    <node pkg="odometry" type="wheel_odom_pub" name="wheel_odom_pub">
+    </node> 
+
+    <!-- Extended Kalman Filter from robot_pose_ekf Node-->
+    <!-- Subscribe: /odom, /imu_data, /vo -->
+    <!-- Publish: /robot_pose_ekf/odom_combined -->
+    <remap from="odom" to="odom_data_quat" />
+    <!--<remap from="imu_data" to="icm20948/data" />-->
+    <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+        <param name="output_frame" value="odom"/>
+        <param name="base_footprint_frame" value="base_footprint"/>
+        <param name="freq" value="30.0"/>
+        <param name="sensor_timeout" value="1.0"/>
+        <param name="odom_used" value="true"/>
+        <param name="imu_used" value="true"/>
+        <param name="vo_used" value="false"/>
+        <param name="gps_used" value="false"/>
+        <param name="debug" value="false"/>
+        <param name="self_diagnose" value="false"/>
+    </node>
+</launch>

@@ -1,0 +1,11 @@
+<launch>
+    <!-- Headlight Subscriber-->
+    <!-- Subscribe: /Lights/headlights -->
+    <node pkg="lightcontroller" type="headlightSub.py" name="headlight_sub">
+    </node>
+
+    <!-- Warning Light Subscriber-->
+    <!-- Subscribe: /Lights/warninglight -->
+    <node pkg="lightcontroller" type="warninglightSub.py" name="warning_light_sub">
+    </node>
+</launch>

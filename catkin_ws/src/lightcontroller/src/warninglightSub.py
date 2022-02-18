@@ -14,7 +14,7 @@ def cbWarninglights(data):
     
 def listener():
     rospy.init_node('warning_state_reader', anonymous=True)
-    rospy.Subscriber('Lights/warninglight', Bool, cbWarninglights)
+    rospy.Subscriber('warninglight', Bool, cbWarninglights)
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 

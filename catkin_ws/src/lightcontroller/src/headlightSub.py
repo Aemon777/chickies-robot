@@ -14,9 +14,10 @@ def cbHeadlights(data):
     
 def listener():
     rospy.init_node('light_state_reader', anonymous=True)
-    rospy.Subscriber('Lights/headlights', Bool, cbHeadlights)
+    rospy.Subscriber('headlights', Bool, cbHeadlights)
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
 if __name__ == '__main__':
+    led.on()
     listener()

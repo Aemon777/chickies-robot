@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find lightcontroller)/launch/startup.launch" />
+    <include file="$(find odometry)/launch/main.launch" />
+    <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+</launch>

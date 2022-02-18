@@ -12,8 +12,8 @@ def talker():
             serialPort=serial.Serial(params['TEENSY_PORT'],params['TEENSY_BAUDRATE'])
         except yaml.YAMLError as exc:
             print(exc)
-    leftEncoder = rospy.Publisher('Odometry/leftTicks', Int64, queue_size=10)
-    rightEncoder = rospy.Publisher('Odometry/rightTicks', Int64, queue_size=10)
+    leftEncoder = rospy.Publisher('left_ticks', Int64, queue_size=10)
+    rightEncoder = rospy.Publisher('right_ticks', Int64, queue_size=10)
     rospy.init_node('odometry', anonymous=True)
     rate = rospy.Rate(params['TEENSY_UPDATE_RATE'])
     while not rospy.is_shutdown():
@@ -24,8 +24,8 @@ def talker():
                 leftTicks = int(data[1])
                 rightTicks = int(data[2])
                 #print(leftTicks,rightTicks)
-                rospy.loginfo(leftTicks)
-                rospy.loginfo(rightTicks)
+                #rospy.loginfo(leftTicks)
+                #rospy.loginfo(rightTicks)
                 leftEncoder.publish(leftTicks)
                 rightEncoder.publish(rightTicks)
             rate.sleep()
