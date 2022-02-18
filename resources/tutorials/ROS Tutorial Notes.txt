@@ -58,7 +58,7 @@ Commands I decided to write down
             Shows the format of the specified message type
     rosservice
         rosservice list
-            Lists services (duh)
+            Lists services
         rosservice type <service> <options>
             Shows the parameter type of the given service 
             Notable suffix: | rossrv show   
