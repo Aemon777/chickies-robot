@@ -30,7 +30,7 @@ class radio_receiver():
         data = list()
         read = self.serialPort.readline().decode('utf-8')
         data = read.split(',')
-        if len(data) >=5:
+        if len(data) > 5:
             print(read)
             data = read.split(',')
             #twist/velocity message
