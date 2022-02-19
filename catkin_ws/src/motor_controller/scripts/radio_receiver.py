@@ -16,7 +16,7 @@ class radio_receiver():
                 print(exc)
         self.pub_vel = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
         rospy.init_node('radio_receiver', anonymous=True)
-        self.rate = rospy.Rate(30)
+        self.rate = rospy.Rate(50)
         self.errorCount = 0
 
     def spin(self):
