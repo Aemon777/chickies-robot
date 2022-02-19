@@ -28,14 +28,11 @@ class radio_receiver():
         #read from port
         read = ""
         data = list()
-        while read == "":
-            read = self.serialPort.readline().decode('utf-8')
-            data = read.split(',')
-            if len(data) < 6:
-                read = ""
-        print(read)
+        read = self.serialPort.readline().decode('utf-8')
         data = read.split(',')
-        try:
+        if len(data) >=5:
+            print(read)
+            data = read.split(',')
             #twist/velocity message
             for_rev = (int(data[4]) < 50)
             throttle = int(data[2])
@@ -48,8 +45,7 @@ class radio_receiver():
             vel.angular.z = steerLeft/25
             rospy.loginfo(vel)
             self.pub_vel.publish(vel)
-
-        except ValueError:
+        else:
            self.errorCount += 1
            if self.errorCount % 10 == 0:
                 print(self.errorCount)
