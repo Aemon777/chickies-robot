@@ -236,7 +236,7 @@ int main(int argc, char **argv) {
   odom_data_pub = node.advertise<nav_msgs::Odometry>("odom_data_euler", 100);
  
   // Publisher of full odom message where orientation is quaternion
-  odom_data_pub_quat = node.advertise<nav_msgs::Odometry>("odom_data_quat", 100);
+  odom_data_pub_quat = node.advertise<nav_msgs::Odometry>("odom", 100);
  
   ros::Rate loop_rate(30); 
      

@@ -31,6 +31,7 @@ def icm20948_node():
             IMU.getAgmt()
             raw_msg = Imu()
             raw_msg.header.stamp = rospy.Time.now()
+            raw_msg.header.frame_id = 'imu'
 	            
             raw_msg.orientation.w = 0
             raw_msg.orientation.x = 0
