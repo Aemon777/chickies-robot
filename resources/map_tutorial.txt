@@ -1,0 +1,11 @@
+Creating a map:
+    roslaunch rplidar_ros rplidar.launch
+    roslaunch hector_slam_launch tutorial.launch
+    Observe RVIZ
+    Jiggle robot until you are happy with the map
+    Go to the folder where you want your map
+    rosrun map_server map_saver -f <map_name>
+
+Running a map   
+    Go to the folder where you saved your map
+    rosrun map_server map_server <map_name>.yaml
