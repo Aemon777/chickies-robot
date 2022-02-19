@@ -1,4 +1,4 @@
 <launch>
-    <node name="motor_driver" pkg="motor_controller" type="motor_driver.py" required="true" />
-    <node name="radio_receiver" pkg="motor_controller" type="radio_receiver.py" required="true" />
+    <node name="motor_driver" pkg="motor_controller" type="motor_driver.py" respawn="true" respawn_delay="1" />
+    <node name="radio_receiver" pkg="motor_controller" type="radio_receiver.py" respawn="true" respawn_delay="1" />
 </launch>

@@ -14,7 +14,7 @@ class radio_receiver():
                 self.serialPort = serial.Serial(data['RADIO_PORT'],data['RADIO_BAUDRATE'])
             except yaml.YAMLError as exc:
                 print(exc)
-        self.pub_vel = rospy.Publisher('motor_vel', Twist, queue_size = 10)
+        self.pub_vel = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
         rospy.init_node('radio_receiver', anonymous=True)
         self.rate = rospy.Rate(30)
         self.errorCount = 0
