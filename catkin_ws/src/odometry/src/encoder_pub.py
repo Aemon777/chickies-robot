@@ -5,22 +5,8 @@ from time import sleep
 import yaml
 from std_msgs.msg import String
 
-class encoder_pub():
-    def __init__(self):
-        self.serialPort = ""
-        with open('/home/ubuntu/chickies-robot/resources/comports.yaml', "r") as stream:
-            try:
-                params = yaml.safe_load(stream)
-                self.serialPort=serial.Serial(params['TEENSY_PORT'],params['TEENSY_BAUDRATE'])
-            except yaml.YAMLError as exc:
-                print(exc)
-        rospy.init_node('odometry', anonymous=True)
-        rospy.Subscriber('motor_vel', String, self.velCallback)
-        self.leftEncoder = rospy.Publisher('left_ticks', Int64, queue_size=10)
-        self.rightEncoder = rospy.Publisher('right_ticks', Int64, queue_size=10)
-        self.rate = rospy.Rate(params['TEENSY_UPDATE_RATE'])
 
-    def velCallback(self, msg):
+"""    def velCallback(self, msg):
         try:
             self.serialPort.write(bytes(msg.data, 'utf-8'))
         except:
@@ -37,7 +23,22 @@ class encoder_pub():
                         print(exc)
             except:
                 print("Failed to open port...")
-                sleep(0.5)
+                sleep(0.5)"""
+
+class encoder_pub():
+    def __init__(self):
+        self.serialPort = ""
+        with open('/home/ubuntu/chickies-robot/resources/comports.yaml', "r") as stream:
+            try:
+                params = yaml.safe_load(stream)
+                self.serialPort=serial.Serial(params['TEENSY_PORT'],params['TEENSY_BAUDRATE'])
+            except yaml.YAMLError as exc:
+                print(exc)
+        rospy.init_node('odometry', anonymous=True)
+#       rospy.Subscriber('motor_vel', String, self.velCallback)
+        self.leftEncoder = rospy.Publisher('left_ticks', Int64, queue_size=10)
+        self.rightEncoder = rospy.Publisher('right_ticks', Int64, queue_size=10)
+        self.rate = rospy.Rate(params['TEENSY_UPDATE_RATE'])
 
     def spin(self):
         while not rospy.is_shutdown():
@@ -54,25 +55,10 @@ class encoder_pub():
                     self.rightEncoder.publish(rightTicks)
                 self.rate.sleep()
             except serial.serialutil.SerialException:
-                self.serialPort.close()
-                with open('/home/ubuntu/chickies-robot/resources/comports.yaml', "r") as stream:
-                    try:
-                        params = yaml.safe_load(stream)
-                        self.serialPort=serial.Serial(params['TEENSY_PORT'],params['TEENSY_BAUDRATE'])
-                    except yaml.YAMLError as exc:
-                        print(exc)
                 sleep(0.5)
             except Exception as ex:
                 template = "An exception of type {0} occurred. Arguments:\n{1!r}"
                 message = template.format(type(ex).__name__, ex.args)
-                self.serialPort.close()
-                with open('/home/ubuntu/chickies-robot/resources/comports.yaml', "r") as stream:
-                    try:
-                        print("Restarting port")
-                        params = yaml.safe_load(stream)
-                        self.serialPort=serial.Serial(params['TEENSY_PORT'],params['TEENSY_BAUDRATE'])
-                    except yaml.YAMLError as exc:
-                        print(exc)
                 print(message)
                 sleep(0.5) 
         self.serialPort.close()

@@ -4,12 +4,21 @@ from difflib import context_diff
 import rospy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
+import yaml
+import serial
 
 class motor_driver():
 	def __init__(self):
 		rospy.init_node('motor_driver', anonymous=True)
-		rospy.Subscriber("cmd_vel", Twist, self.twistCallback)
-		self.vel_pub = rospy.Publisher("motor_vel", String, queue_size=10)
+		rospy.Subscriber("motor_vel", Twist, self.twistCallback)
+
+		self.serialPort = ""
+		with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
+			try:
+				data = yaml.safe_load(stream)
+				self.serialPort=serial.Serial(data['PICO_PORT'],data['PICO_BAUDRATE'])
+			except yaml.YAMLError as exc:
+				print(exc)
 
 		self.leftVel = 0
 		self.rightVel = 0
@@ -93,8 +102,8 @@ class motor_driver():
 		self.leftVel = self.limitRoundedVal(self.leftVel, self.maxVel)
 		self.rightVel = self.limitRoundedVal(self.rightVel, self.maxVel)
 
-		string_msg = String("V," + str(self.leftVel) + "," + str(self.rightVel) + ",**")
-		self.vel_pub.publish(string_msg)
+		serialString = "V," + str(self.leftVel) + "," + str(self.rightVel) + ",**"
+		self.serialPort.write(bytes(serialString, "utf-8"))
 		
 		logString = String(str(self.xVal) + ", " + str(self.thetaVal) + ": " + str(self.leftVel) + ", " + str(self.rightVel))
 		rospy.loginfo(logString)
