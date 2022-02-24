@@ -25,8 +25,8 @@ class motor_driver():
 		self.xVal = 0
 		self.thetaVal = 0
 		self.rate = rospy.Rate(10)
-		self.maxVel = 1 #m/sec
-		self.velUnits = 1 #m/sec
+		self.maxVel = 1.0 #m/sec
+		self.velUnits = 1.0 #m/sec
 		self.maxRads = 2.4
 
 	def twistCallback(self,msg):
@@ -71,7 +71,7 @@ class motor_driver():
 	def limitRoundedVal(self, val, max):
 		if val <= 0.03*self.velUnits and val >= -0.03*self.velUnits:
 			val = 0
-		elif val > 0.03*self.velUnits and val < 0.5*self.velUnits:
+		elif val > 0.03*self.velUnits and val < 0.05*self.velUnits:
 			val = 0.05*self.velUnits
 		elif val < -0.03*self.velUnits and val > -0.05*self.velUnits:
 			val = -0.05*self.velUnits
