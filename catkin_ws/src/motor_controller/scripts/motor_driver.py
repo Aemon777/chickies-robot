@@ -30,7 +30,7 @@ class motor_driver():
 		self.maxRads = 2.4
 
 	def twistCallback(self,msg):
-		self.xVal = round(msg.linear.x * self.velUnits)
+		self.xVal = msg.linear.x * self.velUnits
 		self.thetaVal = msg.angular.z
 
 	def spin(self):
