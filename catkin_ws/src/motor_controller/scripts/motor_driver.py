@@ -10,7 +10,7 @@ import serial
 class motor_driver():
 	def __init__(self):
 		rospy.init_node('motor_driver', anonymous=True)
-		rospy.Subscriber("motor_vel", Twist, self.twistCallback)
+		rospy.Subscriber("cmd_vel", Twist, self.twistCallback)
 
 		self.serialPort = ""
 		with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
