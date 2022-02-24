@@ -96,11 +96,11 @@ class motor_driver():
 
 		left, right = self.limitValsAfterTurn(left, right, self.maxVel)
 		right, left = self.limitValsAfterTurn(right, left, self.maxVel)
-		rospy.loginfo("Left: " + left + "|| Right: " + right)
+		rospy.loginfo("Left: " + str(left) + "|| Right: " + str(right))
 
 		self.leftVel = self.limitRoundedVal(left, self.maxVel)
 		self.rightVel = self.limitRoundedVal(right, self.maxVel)
-		rospy.loginfo("LeftVel: " + self.leftVel + "|| RightVel: " + self.rightVel)
+		rospy.loginfo("LeftVel: " + str(self.leftVel) + "|| RightVel: " + str(self.rightVel))
 
 		serialString = "V," + str(self.leftVel) + "," + str(self.rightVel) + ",**"
 		self.serialPort.write(bytes(serialString, "utf-8"))
