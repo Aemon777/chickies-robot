@@ -69,12 +69,12 @@ class motor_driver():
 		return val, opVal
 	
 	def limitRoundedVal(self, val, max):
-		if val <= 30 and val >= -30:
+		if val <= 0.03*self.velUnits and val >= -0.03*self.velUnits:
 			val = 0
-		elif val > 30 and val < 50:
-			val = 50
-		elif val < -30 and val > -50:
-			val = -50
+		elif val > 0.03*self.velUnits and val < 0.5*self.velUnits:
+			val = 0.05*self.velUnits
+		elif val < -0.03*self.velUnits and val > -0.05*self.velUnits:
+			val = -0.05*self.velUnits
 		elif val > max:
 			val = max
 		elif val < -max:
@@ -97,11 +97,8 @@ class motor_driver():
 		left, right = self.limitValsAfterTurn(left, right, self.maxVel)
 		right, left = self.limitValsAfterTurn(right, left, self.maxVel)
 
-		self.leftVel = round(left)
-		self.rightVel = round(right)
-
-		self.leftVel = self.limitRoundedVal(self.leftVel, self.maxVel)
-		self.rightVel = self.limitRoundedVal(self.rightVel, self.maxVel)
+		self.leftVel = self.limitRoundedVal(left, self.maxVel)
+		self.rightVel = self.limitRoundedVal(right, self.maxVel)
 
 		serialString = "V," + str(self.leftVel) + "," + str(self.rightVel) + ",**"
 		self.serialPort.write(bytes(serialString, "utf-8"))
