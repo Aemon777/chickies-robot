@@ -16,7 +16,7 @@ class motor_driver():
 		with open("/home/ubuntu/chickies-robot/resources/comports.yaml", "r") as stream:
 			try:
 				data = yaml.safe_load(stream)
-				self.serialPort=serial.Serial(data['PICO_PORT'],data['PICO_BAUDRATE'])
+				self.serialPort=serial.Serial(data['TEENSY_PORT'],data['TEENSY_BAUDRATE'])
 			except yaml.YAMLError as exc:
 				print(exc)
 
