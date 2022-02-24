@@ -12,7 +12,7 @@ def icm20948_node():
 
     # Initialize ROS node
     raw_pub = rospy.Publisher('imu_data', Imu, queue_size=10)
-    mag_pub = rospy.Publisher('imu_mag', MagneticField, queue_size=10)
+    #mag_pub = rospy.Publisher('imu_mag', MagneticField, queue_size=10)
     rospy.init_node('icm20948')
 
     rate = rospy.Rate(100)
@@ -31,9 +31,9 @@ def icm20948_node():
             IMU.getAgmt()
             raw_msg = Imu()
             raw_msg.header.stamp = rospy.Time.now()
-            raw_msg.header.frame_id = 'imu'
+            raw_msg.header.frame_id = 'inertial'
 	            
-            raw_msg.orientation.w = 0
+            raw_msg.orientation.w = -1
             raw_msg.orientation.x = 0
             raw_msg.orientation.y = 0
             raw_msg.orientation.z = 0
@@ -46,19 +46,22 @@ def icm20948_node():
             raw_msg.angular_velocity.y = IMU.gyRaw
             raw_msg.angular_velocity.z = IMU.gzRaw
                 
-            raw_msg.orientation_covariance[0] = -1
-            raw_msg.linear_acceleration_covariance[0] = -1
-            raw_msg.angular_velocity_covariance[0] = -1
+            #raw_msg.orientation_covariance[0] = -1
+            raw_msg.orientation_covariance = [-1, 25, 25, 25, 25, 25, 25, 25, 25]
+            #raw_msg.linear_acceleration_covariance[0] = -1
+            raw_msg.linear_acceleration_covariance = [-1, 25, 25, 25, 25, 25, 25, 25, 25]
+            #raw_msg.angular_velocity_covariance[0] = -1
+            raw_msg.angular_velocity_covariance = [-1, 25, 25, 25, 25, 25, 25, 25, 25]
                 
             raw_pub.publish(raw_msg)
                 
-            mag_msg = MagneticField()
-            mag_msg.header.stamp = rospy.Time.now()
-            mag_msg.magnetic_field.x = IMU.mxRaw
-            mag_msg.magnetic_field.y = IMU.myRaw
-            mag_msg.magnetic_field.z = IMU.mzRaw
-            mag_msg.magnetic_field_covariance[0] = -1
-            mag_pub.publish(mag_msg)
+            #mag_msg = MagneticField()
+            #mag_msg.header.stamp = rospy.Time.now()
+            #mag_msg.magnetic_field.x = IMU.mxRaw
+            #mag_msg.magnetic_field.y = IMU.myRaw
+            #mag_msg.magnetic_field.z = IMU.mzRaw
+            #mag_msg.magnetic_field_covariance = [-1, 25, 25, 25, 25, 25, 25, 25, 25]
+            #mag_pub.publish(mag_msg)
 
         rate.sleep()   
     

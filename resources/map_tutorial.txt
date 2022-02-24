@@ -9,3 +9,9 @@ Creating a map:
 Running a map   
     Go to the folder where you saved your map
     rosrun map_server map_server <map_name>.yaml
+
+
+#set up system for remote monitoring of ROS topics
+#export ROS_MASTER_URI=http://10.243.240.150:11311
+#export ROS_IP=10.243.240.150
+#export ROS_HOSTNAME=10.243.240.150
