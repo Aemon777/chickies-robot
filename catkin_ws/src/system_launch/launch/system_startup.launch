@@ -7,4 +7,5 @@
     <include file="$(find odometry)/launch/main.launch" />
     <include file="$(find rplidar_ros)/launch/rplidar.launch" />
     <!--<include file="$(find motor_controller)/launch/drive.launch" />-->
+    <include file="$(find base_2dnav)/launch/base.launch" />
 </launch>
