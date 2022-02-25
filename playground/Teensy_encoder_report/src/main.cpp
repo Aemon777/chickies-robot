@@ -17,7 +17,7 @@
 #define ApinR 2
 #define BpinR 3
 //Constants Definitions
-#define report_hz 20
+#define report_hz 10
 
 //enc(encoder number (1-4), A pin, B pin, pullups required (0/1), 4=??)
 QuadEncoder encL(1, ApinL, BpinL, 1, 4);
@@ -27,14 +27,16 @@ unsigned long reportTimer = 0; //used to ensure encoder count reporting at repor
 void printEncoders() {
   //print the encoder counts with format "E,leftCount,rightCount,**"
   Serial.println("E,"+String(encL.read())+","+String(encR.read())+",**");
+  Serial1.println("E,"+String(encL.read())+","+String(encR.read())+",**");
+  Serial3.println("E,"+String(encL.read())+","+String(encR.read())+",**");
 }
 
 void setup() {
   //serial used for USB communications to receive commands and report encoder counts
   Serial.begin(115200);
   //serial 1 & 3 used for debugging and tracking stats
-  //Serial1.begin(115200);
-  //Serial3.begin(115200);
+  Serial1.begin(115200);
+  Serial3.begin(115200);
   encL.setInitConfig();
   encL.init();
   encR.setInitConfig();
