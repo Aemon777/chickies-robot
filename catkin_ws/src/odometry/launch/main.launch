@@ -7,7 +7,7 @@
 <!--    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_to_odom_combined" args="0 0 0 0 0 0 odom odom_combined" />-->
     <!-- IMU Data Publisher Using the ICM20948 IMU Sensor -->
     <!-- Publish: /imu_data, /imu_mag-->
-    <node name="inertial_pub" pkg="odometry" type="imu_pub.py" respawn="true" respawn_delay="2">
+    <node name="inertial_pub" pkg="odometry" type="serial_imu_pub.py" respawn="true" respawn_delay="2">
     </node>
 
     <!-- Encoder Data Publisher Using the Teensy Encoders -->

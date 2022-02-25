@@ -60,6 +60,7 @@ class imu_pub():
                     mag_msg.magnetic_field.z = float(data[9])
                     mag_msg.magnetic_field_covariance = [1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2]
                     self.mag_pub.publish(mag_msg)
+                    rospy.loginfo(raw_msg.linear_acceleration.z)
 
                 self.rate.sleep()
             except serial.serialutil.SerialException:
