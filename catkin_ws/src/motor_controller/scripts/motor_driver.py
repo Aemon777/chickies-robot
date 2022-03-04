@@ -31,7 +31,7 @@ class motor_driver():
 
 	def twistCallback(self,msg):
 		self.xVal = msg.linear.x * self.velUnits
-		self.thetaVal = -msg.angular.z
+		self.thetaVal = msg.angular.z
 
 	def spin(self):
 		while not rospy.is_shutdown():
@@ -91,8 +91,8 @@ class motor_driver():
 		turn = self.limitTurn(self.thetaVal, self.maxRads)
 		# recall that turn, here, is directly proportional to right velocity and inversely so to left velocity
 		# Ccw and all that
-		left = throttle + turn/self.maxRads*self.maxVel
-		right = throttle - turn/self.maxRads*self.maxVel
+		left = throttle - turn/self.maxRads*self.maxVel
+		right = throttle + turn/self.maxRads*self.maxVel
 
 		left, right = self.limitValsAfterTurn(left, right, self.maxVel)
 		right, left = self.limitValsAfterTurn(right, left, self.maxVel)
