@@ -39,7 +39,7 @@ class imu_pub():
                         
                     raw_msg.linear_acceleration.x = float(data[1])
                     raw_msg.linear_acceleration.y = float(data[2])
-                    raw_msg.linear_acceleration.z = float(data[3])
+                    raw_msg.linear_acceleration.z = -float(data[3])
                         
                     raw_msg.angular_velocity.x = float(data[4])
                     raw_msg.angular_velocity.y = float(data[5])
