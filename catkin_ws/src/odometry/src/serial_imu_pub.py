@@ -46,11 +46,11 @@ class imu_pub():
                     raw_msg.angular_velocity.z = float(data[6])
                         
                     #raw_msg.orientation_covariance[0] = -1
-                    raw_msg.orientation_covariance = [-1, 1, 1, 1, 1, 1, 1, 1, 1]
+                    raw_msg.orientation_covariance = [-1, 1, 1, 1, 1, 1, 1, 1, 1]#[-1,0,0,0,0,0,0,0,0]
                     #raw_msg.linear_acceleration_covariance[0] = -1
-                    raw_msg.linear_acceleration_covariance = [0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1]
+                    raw_msg.linear_acceleration_covariance = [0.0000599193, 0, 0, 0, 0.0000492518, 0, 0, 0, 0.000415205]
                     #raw_msg.angular_velocity_covariance[0] = -1
-                    raw_msg.angular_velocity_covariance = [0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1]
+                    raw_msg.angular_velocity_covariance = [0.00001, 0, 0, 0, 0.00001, 0, 0, 0, 0.00001]
                     self.raw_pub.publish(raw_msg)
                         
                     mag_msg = MagneticField()
@@ -58,7 +58,7 @@ class imu_pub():
                     mag_msg.magnetic_field.x = float(data[7])
                     mag_msg.magnetic_field.y = float(data[8])
                     mag_msg.magnetic_field.z = float(data[9])
-                    mag_msg.magnetic_field_covariance = [1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2]
+                    mag_msg.magnetic_field_covariance = [0.55498, 0, 0, 0, 0.943658, 0, 0, 0, 0.586553]
                     self.mag_pub.publish(mag_msg)
                     rospy.loginfo(raw_msg.linear_acceleration.z)
 
