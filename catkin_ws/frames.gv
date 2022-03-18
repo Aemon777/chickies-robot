@@ -1,11 +1,12 @@
 digraph G {
-"base_link" -> "laser"[label=" Broadcaster: /base_link_to_laser\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
-"base_footprint" -> "base_link"[label=" Broadcaster: /base_link_broadcaster\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
-"base_link" -> "inertial"[label=" Broadcaster: /base_link_to_inertial\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
-"odom" -> "base_footprint"[label=" Broadcaster: /robot_pose_ekf\nAverage rate: 23.716\nBuffer length: 4.933\nMost recent transform: 1646425196.821\nOldest transform: 1646425191.887\n"];
-"map" -> "odom"[label=" Broadcaster: /amcl\nAverage rate: 12.868\nBuffer length: 4.896\nMost recent transform: 1646425196.845\nOldest transform: 1646425191.949\n"];
+"odom" -> "base_footprint"[label="Broadcaster: /robot_pose_ekf\nAverage rate: 21.689 Hz\nMost recent transform: 1645304926.532 ( 0.025 sec old)\nBuffer length: 4.933 sec\n"];
+"map" -> "odom"[label="Broadcaster: /map_to_odom\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1645304926.556 sec old)\nBuffer length: 0.000 sec\n"];
+"base_link" -> "laser"[label="Broadcaster: /base_link_to_laser\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1645304926.556 sec old)\nBuffer length: 0.000 sec\n"];
+"base_footprint" -> "base_link"[label="Broadcaster: /base_link_broadcaster\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1645304926.556 sec old)\nBuffer length: 0.000 sec\n"];
+"base_link" -> "imu"[label="Broadcaster: /base_link_to_imu\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1645304926.556 sec old)\nBuffer length: 0.000 sec\n"];
+"odom" -> "odom_combined"[label="Broadcaster: /odom_to_odom_combined\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1645304926.556 sec old)\nBuffer length: 0.000 sec\n"];
 edge [style=invis];
  subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
-"Recorded at time: 1646425196.8893993"[ shape=plaintext ] ;
-}->"map";
+"Recorded at time: 1645304926.556"[ shape=plaintext ] ;
+ }->"map";
 }
