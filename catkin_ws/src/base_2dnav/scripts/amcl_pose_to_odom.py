@@ -23,7 +23,7 @@ class amcl_pose_to_odom():
         pub_msg.pose = msg.pose
 
         twist = TwistWithCovarianceStamped()
-        twist.covariance = [25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25]
+        twist.covariance = [-1, 25, 25, 25, 25, 25, 25, 25, 25]
 
         twist.linear.x = 0
         twist.linear.y = 0
