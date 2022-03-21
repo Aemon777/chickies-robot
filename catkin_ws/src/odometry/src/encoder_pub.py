@@ -5,26 +5,6 @@ from time import sleep
 import yaml
 from std_msgs.msg import String
 
-
-"""    def velCallback(self, msg):
-        try:
-            self.serialPort.write(bytes(msg.data, 'utf-8'))
-        except:
-            try:
-                print()
-                print()
-                self.serialPort.close()
-                with open('/home/ubuntu/chickies-robot/resources/comports.yaml', "r") as stream:
-                    try:
-                        print("Restarting port")
-                        params = yaml.safe_load(stream)
-                        self.serialPort=serial.Serial(params['TEENSY_PORT'],params['TEENSY_BAUDRATE'])
-                    except yaml.YAMLError as exc:
-                        print(exc)
-            except:
-                print("Failed to open port...")
-                sleep(0.5)"""
-
 class encoder_pub():
     def __init__(self):
         self.serialPort = ""
@@ -47,10 +27,11 @@ class encoder_pub():
     def spin(self):
         while not rospy.is_shutdown():
             try:
+                self.serialPort.write('Q,**'.encode('utf-8'))
                 read = self.serialPort.readline().decode('utf-8')
                 data = read.split(',')
                 if(data[0] == 'E' and len(data) == 4 and data[3] == '**\r\n'):
-                    print(len(data))
+                    #print(len(data))
                     leftTicks = int(data[1])
                     rightTicks = int(data[2])
                     #print(leftTicks,rightTicks)

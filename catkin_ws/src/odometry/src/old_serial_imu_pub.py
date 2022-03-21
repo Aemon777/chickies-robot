@@ -21,14 +21,10 @@ class imu_pub():
         self.mag_pub = rospy.Publisher('imu_mag', MagneticField, queue_size=10)
         self.rate = rospy.Rate(params['NANO_IMU_UPDATE_RATE'])
         rospy.loginfo(rospy.get_caller_id() + "  IMU node launched.")
-        self.serialPort.flush()
-        self.serialPort.reset_input_buffer()
-        self.serialPort.reset_output_buffer()
 
     def spin(self):
         while not rospy.is_shutdown():
             try:
-                self.serialPort.write('Q,**'.encode('utf-8'))
                 read = self.serialPort.readline().decode('utf-8')
                 data = read.split(',')
                 if(data[0] == 'I' and len(data) == 11 and data[10] == '**\r\n'):
