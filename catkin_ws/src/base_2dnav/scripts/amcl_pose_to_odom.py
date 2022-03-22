@@ -3,7 +3,8 @@
 import rospy
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import PoseWithCovarianceStamped
-from geometry_msgs.msg import TwistWithCovarianceStamped
+from geometry_msgs.msg import PoseWithCovariance
+from geometry_msgs.msg import TwistWithCovariance
 from std_msgs.msg import Header
 
 class amcl_pose_to_odom():
@@ -22,16 +23,16 @@ class amcl_pose_to_odom():
 
         pub_msg.pose = msg.pose
 
-        twist = TwistWithCovarianceStamped()
+        twist = TwistWithCovarianced()
         twist.covariance = [-1, 25, 25, 25, 25, 25, 25, 25, 25]
 
-        twist.linear.x = 0
-        twist.linear.y = 0
-        twist.linear.z = 0
+        twist.twist.linear.x = 0
+        twist.twist.linear.y = 0
+        twist.twist.linear.z = 0
         
-        twist.angular.x = 0
-        twist.angular.y = 0
-        twist.angular.z = 0
+        twist.twist.angular.x = 0
+        twist.twist.angular.y = 0
+        twist.twist.angular.z = 0
 
         pub_msg.twist = twist
 
