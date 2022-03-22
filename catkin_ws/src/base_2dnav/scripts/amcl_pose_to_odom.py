@@ -1,10 +1,10 @@
 #!/usr/bin/env/python
 
 import rospy
-from nav_msgs import Odometry
-from geometry_msgs import PoseWithCovarianceStamped
-from geometry_msgs import TwistWithCovarianceStamped
-from std_msgs import Header
+from nav_msgs.msg import Odometry
+from geometry_msgs.msg import PoseWithCovarianceStamped
+from geometry_msgs.msg import TwistWithCovarianceStamped
+from std_msgs.msg import Header
 
 class amcl_pose_to_odom():
     def __init__(self):
@@ -16,9 +16,9 @@ class amcl_pose_to_odom():
     def poseCallback(self, msg):
         pub_msg = Odometry()
 
-        pub_msg.Header.frame_id = msg.Header.frame_id
-        pub_msg.Header.stamp = msg.Header.stamp
-        pub_msg.Header.seq = msg.Header.seq + 1
+        pub_msg.header.frame_id = msg.header.frame_id
+        pub_msg.header.stamp = msg.header.stamp
+        pub_msg.header.seq = msg.header.seq + 1
 
         pub_msg.pose = msg.pose
 
