@@ -6,6 +6,9 @@
  <!--- Run AMCL --> 
    <include file="/home/ubuntu/chickies-robot/catkin_ws/src/amcl/examples/custom_amcl.launch" />
 
+ <!-- Run amcl to odom transform -->
+   <node name="amcl_pose_to_odom" pkg="base_2dnav" type="amcl_pose_to_odom.py" respawn="true" respawn_delay="1" />
+
    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="/home/ubuntu/chickies-robot/catkin_ws/src/base_2dnav/node_params/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
     <rosparam file="/home/ubuntu/chickies-robot/catkin_ws/src/base_2dnav/node_params/costmap_common_params.yaml" command="load" ns="local_costmap" />
