@@ -30,6 +30,7 @@
     <!-- Extended Kalman Filter from robot_pose_ekf Node-->
     <!-- Subscribe: /odom, /imu_data, /vo -->
     <!-- Publish: /robot_pose_ekf/odom_combined -->
+    <remap from="vo" to="vo_data" />
     <!--<remap from="odom" to="odom_data_quat" />-->
     <!--<remap from="imu_data" to="icm20948/data" />-->
     <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
@@ -39,7 +40,7 @@
         <param name="sensor_timeout" value="1.0"/>
         <param name="odom_used" value="true"/>
         <param name="imu_used" value="false"/>
-        <param name="vo_used" value="false"/>
+        <param name="vo_used" value="true"/>
         <param name="gps_used" value="false"/>
         <param name="debug" value="false"/>
         <param name="self_diagnose" value="false"/>

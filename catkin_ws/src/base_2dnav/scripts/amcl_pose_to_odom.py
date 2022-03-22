@@ -23,7 +23,7 @@ class amcl_pose_to_odom():
 
         pub_msg.pose = msg.pose
 
-        twist = TwistWithCovarianced()
+        twist = TwistWithCovariance()
         twist.covariance = [-1, 25, 25, 25, 25, 25, 25, 25, 25]
 
         twist.twist.linear.x = 0
@@ -38,7 +38,7 @@ class amcl_pose_to_odom():
 
         pub_msg.child_frame_id = "base_footprint"
 
-        rospy.logInfo(pub_msg)
+        rospy.loginfo(pub_msg)
         self.pub_odom.publish(pub_msg)
 
 
