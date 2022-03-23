@@ -1,7 +1,7 @@
 <launch>
 
  <!-- Run the map server --> 
-    <node name="map_server" pkg="map_server" type="map_server" args="/home/ubuntu/chickies-robot/catkin_ws/maps/robo_arena.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="/home/ubuntu/chickies-robot/catkin_ws/maps/lab_floor_center.yaml"/>
 
  <!--- Run AMCL --> 
    <include file="/home/ubuntu/chickies-robot/catkin_ws/src/amcl/examples/custom_amcl.launch" />

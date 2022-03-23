@@ -48,8 +48,9 @@ const double PI = 3.141592;
 // Robot physical constants
 //const double TICKS_PER_REVOLUTION = 1; // For reference purposes.
 //const double WHEEL_RADIUS = 0.033; // Wheel radius in meters
-const double WHEEL_BASE = 0.37; // Center of left tire to center of right tire
+const double WHEEL_BASE = 0.4; // Center of left tire to center of right tire
 const double TICKS_PER_METER = 138000*3; // Original was 2800
+const double SLIPPAGE_CORRECTION = 0.6757; // Turning correction constant due to differential slippage
  
 // Distance both wheels have traveled
 double distanceLeft = 0;
@@ -136,10 +137,10 @@ void publish_quat() {
  
   for(int i = 0; i<36; i++) {
     if(i == 0 || i == 7 || i == 14) {
-      quatOdom.pose.covariance[i] = .01;
+      quatOdom.pose.covariance[i] = 0.1;
      }
      else if (i == 21 || i == 28 || i== 35) {
-       quatOdom.pose.covariance[i] += 0.1;
+       quatOdom.pose.covariance[i] += 0.2;
      }
      else {
        quatOdom.pose.covariance[i] = 0;
@@ -156,7 +157,7 @@ void update_odom() {
   double cycleDistance = (distanceRight + distanceLeft) / 2;
    
   // Calculate the number of radians the robot has turned since the last cycle
-  double cycleAngle = asin((distanceRight-distanceLeft)/WHEEL_BASE);
+  double cycleAngle = asin((distanceRight-distanceLeft)/WHEEL_BASE*SLIPPAGE_CORRECTION);
  
   // Average angle during the last cycle
   double avgAngle = cycleAngle/2 + odomOld.pose.pose.orientation.z;
