@@ -157,7 +157,8 @@ void update_odom() {
   double cycleDistance = (distanceRight + distanceLeft) / 2;
    
   // Calculate the number of radians the robot has turned since the last cycle
-  double cycleAngle = asin((distanceRight-distanceLeft)/WHEEL_BASE)*SLIPPAGE_CORRECTION;
+  double cycleAngle = asin((distanceRight-distanceLeft)/WHEEL_BASE);
+  cycleAngle = cycleAngle * 0.01;
  
   // Average angle during the last cycle
   double avgAngle = cycleAngle/2 + odomOld.pose.pose.orientation.z;
