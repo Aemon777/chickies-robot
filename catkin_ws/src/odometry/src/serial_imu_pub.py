@@ -50,7 +50,7 @@ class imu_pub():
                     raw_msg.angular_velocity.z = float(data[6])
                         
                     #raw_msg.orientation_covariance[0] = -1
-                    raw_msg.orientation_covariance = [-1, 1, 1, 1, 1, 1, 1, 1, 1]#[-1,0,0,0,0,0,0,0,0]
+                    raw_msg.orientation_covariance = [-1,9000,9000,9000,9000,9000,9000,9000,9000]#[-1, 1, 1, 1, 1, 1, 1, 1, 1]#[-1,0,0,0,0,0,0,0,0]
                     #raw_msg.linear_acceleration_covariance[0] = -1
                     raw_msg.linear_acceleration_covariance = [0.0000599193, 0, 0, 0, 0.0000492518, 0, 0, 0, 0.000415205]
                     #raw_msg.angular_velocity_covariance[0] = -1
