@@ -12,6 +12,10 @@ int switchPinLiftDown = 8; //stops the lift from going too low
 int switchPinButtonForward = 12; //pin for limit switch that stops the button pushing device from going too far outward
 int switchPinButtonBack = 7; //stops button device from retracting too much
 
+//Set up for current reading device
+const int currentOutPin = A0;
+int currentReading = 0;
+
 void setup() {
   //setup for the switches
   pinMode(switchPinLiftUp, INPUT_PULLUP); //we want input pullup to prevent strange readings
@@ -21,8 +25,10 @@ void setup() {
 
   //setup for the servos
   liftServo.attach(liftServoPWMPin); //attaches the servo to the correct pint
-  buttonServo.attach(buttonServoPWMPin); 
-  Serial.begin(9600);
+  buttonServo.attach(buttonServoPWMPin);
+
+  //Current device
+  pintMode(currentOutPin, INPUT);
 }
 
 void loop() {
@@ -55,12 +61,17 @@ void loop() {
     //pressing the button
     while (forward == 1){
       int switchStateButtonForward = digitalRead(switchPinButtonForward);
-      if (switchStateButtonForward == 1){ //Need this if statement for checking if the LIDAR sees the door opening, switch starts pushed
-        buttonServo.writeMicroseconds(1270);
-        liftServo.writeMicroseconds(1590); //lift servo should not be moving for forward or back part
+      currentReading = analogRead(currentOutPin);
+      if (currentReading > 150 ){ //button is being pushed
         forward = 0;
         back = 1;
       } 
+      else if (switchStateButtonForward == 1){
+        buttonServo.writeMicroseconds(1270);
+        liftServo.writeMicroseconds(1590); 
+        //send error message somewhere
+        complete = 1;
+      }
       else {
         buttonServo.write(0); //Im assuming 180 is the max speed for CW rotation
         liftServo.writeMicroseconds(1590);
@@ -70,7 +81,6 @@ void loop() {
     //retracting the button mechanism 
     while (back == 1){
       int switchStateButtonBack = digitalRead(switchPinButtonBack);
-      Serial.print(switchStateButtonBack);
       delay(1000);
       if (switchStateButtonBack == 0){
         back = 0;
