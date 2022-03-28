@@ -39,7 +39,7 @@ class radio_receiver():
             steer = -1 if int(data[0]) == 0 else int(data[0])
             steerLeft = (steer)*1.5 - 75
             vel = Twist()
-            vel.linear.x = throttle*1.25/100
+            vel.linear.x = throttle*1.25/200
             if not for_rev:
                 vel.linear.x = -vel.linear.x
             vel.angular.z = steerLeft/25

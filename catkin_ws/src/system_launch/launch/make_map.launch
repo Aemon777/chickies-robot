@@ -1,0 +1,5 @@
+<launch>
+    <include  file="/home/ubuntu/chickies-robot/catkin_ws/src/odometry/launch/main.launch" />
+    <include  file="/home/ubuntu/chickies-robot/catkin_ws/src/motor_controller/launch/radio_drive.launch" />
+    <include  file="$(find rplidar_ros)/launch/rplidar.launch" />
+</launch>
