@@ -1,0 +1,34 @@
+<launch>
+    <include file="$(find odometry)/launch/tf.launch" />
+
+    <!-- IMU Data Publisher Using the ICM20948 IMU Sensor -->
+    <!-- Publish: /imu_data, /imu_mag-->
+    <node name="inertial_pub" pkg="odometry" type="serial_imu_pub.py" respawn="true" respawn_delay="2">
+    </node>
+
+    <!-- Encoder Data Publisher Using the Teensy Encoders -->
+    <!-- Publish: /right_ticks, /left_ticks -->    
+    <node name="encoder_pub" pkg="odometry" type="encoder_pub.py" respawn="true" respawn_delay="2">
+    </node>
+
+    <!-- Initial Pose and Goal Publisher -->
+    <!-- Publish: /initialpose, /move_base_simple/goal -->
+<!-- <node pkg="rviz" type="rviz" name="rviz">
+</node> -->
+
+    <!-- Subscribe: /initialpose, /move_base_simple/goal -->
+    <!-- Publish: /initial_2d, /goal_2d -->
+    <node pkg="odometry" type="rviz_click_to_2d" name="rviz_click_to_2d">
+    </node>  
+
+    <!-- Wheel Odometry Publisher -->
+    <!-- Subscribe: /right_ticks, /left_ticks, /initial_2d -->
+    <!-- Publish: /odom_data_euler, /odom_data_quat -->
+    <node pkg="odometry" type="wheel_odom_pub" name="wheel_odom_pub">
+    </node> 
+
+    <!-- Odom-IMU Extended Kalman Filter-->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_odom" clear_params="true"> 
+        <rosparam command="load" file="$~/chickies-robot/catkin_ws/src/odometry/src/robot_localization_odom.yaml" />
+    </node>
+</launch>
