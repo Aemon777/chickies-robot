@@ -1,0 +1,24 @@
+Using the gmapping process has two steps
+
+    1.  Build a bag file for the gmapping process to run on
+        The gmapping slam process runs by parsing data stored in a bag file
+        This means the data gathering is done ahead of time, so we need to set up data gathering
+
+        A.  Turn on the remote control. This is so the next step won't send the robot spinning.
+        B.  run 
+                "roslaunch system_launch make_map.launch"
+            This is the launch file that runs all systems needed for the rosbag file
+        C.  run "rviz"
+        D.  In rviz, go to the upper left and change global frame to odom
+        E.  Then give the robot an initial pose. Anywhere will do. Set it parallel to a grid line?
+        F.  Go into the chickies-robot/catkin_ws/maps folder and run   
+                "rosbag record -O <file_name> /scan /tf /tf_static"
+        G.  Drive the robot through the area you want mapped.
+    
+    2.  Run slam while replaying the bag file
+        A.  Run "rosparam set use_sim_time true"
+        B.  From anywhere, run "rosrun gmapping slam_gmapping scan:=scan"
+        C.  From the chickies-robot/catkin_ws/maps directory, run
+                rosbag play --clock <file_name>.bag
+        D.  When the bag has played all the way out, run
+                rosrun map_server map_saver -f <file_name>
