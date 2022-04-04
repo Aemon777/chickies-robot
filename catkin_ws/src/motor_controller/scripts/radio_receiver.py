@@ -42,7 +42,7 @@ class radio_receiver():
             vel.linear.x = throttle*1.25/200
             if not for_rev:
                 vel.linear.x = -vel.linear.x
-            vel.angular.z = steerLeft/25
+            vel.angular.z = steerLeft/75
             rospy.loginfo(vel)
             self.pub_vel.publish(vel)
         else:

@@ -1,11 +1,5 @@
 digraph G {
-"base_link" -> "laser"[label=" Broadcaster: /base_link_to_laser\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
-"base_footprint" -> "base_link"[label=" Broadcaster: /base_link_broadcaster\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
-"odom" -> "base_footprint"[label=" Broadcaster: /robot_pose_ekf\nAverage rate: 21.745\nBuffer length: 4.967\nMost recent transform: 1647988575.574\nOldest transform: 1647988570.608\n"];
-"base_link" -> "inertial"[label=" Broadcaster: /base_link_to_inertial\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
-"map" -> "odom"[label=" Broadcaster: /amcl\nAverage rate: 13.319\nBuffer length: 4.88\nMost recent transform: 1647988575.696\nOldest transform: 1647988570.816\n"];
-edge [style=invis];
- subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
-"Recorded at time: 1647988575.652083"[ shape=plaintext ] ;
-}->"map";
+"base_link" -> "laser"[label="Broadcaster: /base_link_to_laser\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 \nBuffer length: 0.000 sec\n"];
+"base_footprint" -> "base_link"[label="Broadcaster: /base_link_broadcaster\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 \nBuffer length: 0.000 sec\n"];
+"base_link" -> "inertial"[label="Broadcaster: /base_link_to_inertial\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 \nBuffer length: 0.000 sec\n"];
 }
