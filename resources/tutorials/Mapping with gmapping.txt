@@ -11,9 +11,11 @@ Using the gmapping process has two steps
         C.  run "rviz"
         D.  In rviz, go to the upper left and change global frame to odom
         E.  Then give the robot an initial pose. Anywhere will do. Set it parallel to a grid line?
-        F.  Go into the chickies-robot/catkin_ws/maps folder and run   
+        F.  Once you've done this, run "rostopic echo tf" to make sure the /robot_pose_ekf/odom_combined is working
+                You should see some sort of tf data for odom to base_footprint
+        G.  Go into the chickies-robot/catkin_ws/maps folder and run   
                 "rosbag record -O <file_name> /scan /tf /tf_static"
-        G.  Drive the robot through the area you want mapped.
+        H.  Drive the robot through the area you want mapped.
     
     2.  Run slam while replaying the bag file
         A.  Run "rosparam set use_sim_time true"
