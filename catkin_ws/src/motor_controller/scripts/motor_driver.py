@@ -31,7 +31,7 @@ class motor_driver():
 
 	def twistCallback(self,msg):
 		self.xVal = msg.linear.x * self.velUnits
-		self.thetaVal = msg.angular.z
+		self.thetaVal = msg.angular.z - 0.1
 
 	def spin(self):
 		while not rospy.is_shutdown():
@@ -80,6 +80,19 @@ class motor_driver():
 		elif val < -max:
 			val = -max
 		return val
+   
+  def limitChange(self, target, current):
+    tar = target + 2.0
+    cur = current + 2.0
+    maxChange = self.calculateMaxChange(current)
+    if (tar - cur) > maxChange:
+      tar = cur + maxChange
+    elif (cur - tar) > maxChange:
+      tar = cur - maxChange
+    return tar - 2.0
+  
+  calculateMaxChange(self, current):
+    return 0.1 + abs(current)*0.1
 	
 # Motor movement goals:
 #	Wheels should always be abs(steerLeft)*2 apart from each other
@@ -99,6 +112,9 @@ class motor_driver():
 
 		left = round(left, 3)
 		right = round(right, 3)
+   
+    left = self.limitChange(left, self.leftVel)
+    right = self.limitChange(right, self.rightVel)
 
 		self.leftVel = self.limitRoundedVal(left, self.maxVel)
 		self.rightVel = self.limitRoundedVal(right, self.maxVel)
