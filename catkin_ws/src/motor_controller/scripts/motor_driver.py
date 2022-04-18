@@ -31,7 +31,7 @@ class motor_driver():
 
 	def twistCallback(self,msg):
 		self.xVal = msg.linear.x * self.velUnits
-		self.thetaVal = msg.angular.z - 0.1
+		self.thetaVal = msg.angular.z - 0.006
 
 	def spin(self):
 		while not rospy.is_shutdown():
@@ -109,22 +109,21 @@ class motor_driver():
 
 		left, right = self.limitValsAfterTurn(left, right, self.maxVel)
 		right, left = self.limitValsAfterTurn(right, left, self.maxVel)
-
+		
+		#left = self.limitChange(left, self.leftVel)
+		#right = self.limitChange(right, self.rightVel)
+		
 		left = round(left, 3)
 		right = round(right, 3)
-		
-		left = self.limitChange(left, self.leftVel)
-		right = self.limitChange(right, self.rightVel)
 
 		self.leftVel = self.limitRoundedVal(left, self.maxVel)
 		self.rightVel = self.limitRoundedVal(right, self.maxVel)
 
 		serialString = "V," + str(self.leftVel) + "," + str(self.rightVel) + ",**"
-		self.serialPort.write(bytes(serialString, "utf-8"))
 		
 		logString = String(str(self.xVal) + ", " + str(self.thetaVal) + ": " + str(self.leftVel) + ", " + str(self.rightVel))
 		rospy.loginfo(logString)
-
+		self.serialPort.write(bytes(serialString, "utf-8"))
 
 if __name__ == '__main__':
 	try:
