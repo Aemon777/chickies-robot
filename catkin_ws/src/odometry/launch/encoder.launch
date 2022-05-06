@@ -1,4 +1,0 @@
-<launch>
-    <node name="encoder_pub" pkg="odometry" type="encoder_pub.py" respawn="true" respawn_delay="1">
-    </node>
-</launch>

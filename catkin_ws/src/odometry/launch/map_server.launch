@@ -1,5 +1,0 @@
-<launch>
-    <!--<arg name="map_file" default="$ /home/ubuntu/chickies-robot/catkin_ws/maps/teacher_lounge.yaml"/>-->
-    <!-- Run the map server -->
-    <node name="map_server" pkg="map_server" type="map_server" args="/home/ubuntu/chickies-robot/catkin_ws/maps/teacher_lounge.yaml" />
-</launch>
