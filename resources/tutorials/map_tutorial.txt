@@ -1,3 +1,6 @@
+THIS TUTORIAL OBSOLETE, USE 
+    Mapping with gmapping.txt
+
 Creating a map:
     roslaunch rplidar_ros rplidar.launch
     roslaunch hector_slam_launch tutorial.launch
