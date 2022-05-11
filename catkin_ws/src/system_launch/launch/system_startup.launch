@@ -8,4 +8,9 @@
     <include file="$(find rplidar_ros)/launch/rplidar.launch" />
     <include file="$(find motor_controller)/launch/drive.launch" />
     <include file="$(find base_2dnav)/launch/base.launch" />
+    <!-- Run the map server --> 
+    <node name="map_server" pkg="map_server" type="map_server" args="/home/ubuntu/chickies-robot/catkin_ws/maps/ens_lower_floor.yaml"/>
+
+    <!--- Run AMCL --> 
+    <include file="/home/ubuntu/chickies-robot/catkin_ws/src/amcl/examples/custom_amcl.launch" />
 </launch>
